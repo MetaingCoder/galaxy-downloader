@@ -21,23 +21,6 @@ const nextConfig: NextConfig = {
             '@radix-ui/react-tooltip',
         ],
     },
-    async headers() {
-        return [
-            {
-                source: '/:path*',
-                headers: [
-                    {
-                        key: 'Cross-Origin-Embedder-Policy',
-                        value: 'require-corp',
-                    },
-                    {
-                        key: 'Cross-Origin-Opener-Policy',
-                        value: 'same-origin',
-                    },
-                ],
-            },
-        ];
-    },
     async rewrites() {
         const i18nLocales = i18n.locales.join('|');
         return [
