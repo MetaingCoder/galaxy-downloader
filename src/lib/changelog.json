@@ -1,6 +1,21 @@
 {
   "versions": [
     {
+      "version": "2.0.0",
+      "date": "2026-03-05",
+      "changes": {
+        "zh": [
+          "新增支持 TikTok 视频与音频下载"
+        ],
+        "en": [
+          "Added support for TikTok video and audio download"
+        ],
+        "zh-tw": [
+          "新增支援 TikTok 影片與音訊下載"
+        ]
+      }
+    },
+    {
       "version": "1.11.0",
       "date": "2026-03-03",
       "changes": {
