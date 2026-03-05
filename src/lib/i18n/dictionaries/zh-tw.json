@@ -12,8 +12,8 @@
         "newBadge": "新增抖音圖文支援"
     },
     "page": {
-        "feedback": "如有回饋或建議，請至 ",
-        "feedbackLinkText": "GitHub 提交 issue",
+        "feedback": "有回饋或建議？點擊右上角「反饋」按鈕告訴我們。",
+        "feedbackLinkText": "",
         "faqLinkText": "常見問題",
         "openMenuLabel": "開啟選單",
         "copyrightVideo": "版權說明：影片版權歸相關網站及作者所有",
@@ -51,6 +51,7 @@
         "unknownTitle": "未知標題",
         "platforms": {
             "bilibili": "嗶哩嗶哩",
+            "bilibiliTv": "Bilibili TV",
             "douyin": "抖音",
             "xiaohongshu": "小紅書",
             "tiktok": "TikTok",
@@ -173,6 +174,10 @@
             "bilibili": {
                 "name": "嗶哩嗶哩",
                 "summary": "支援影片下載、音訊提取、口令解析"
+            },
+            "bilibiliTv": {
+                "name": "Bilibili TV",
+                "summary": "支援分離音訊/影片流下載"
             },
             "douyin": {
                 "name": "抖音",

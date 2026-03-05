@@ -12,8 +12,8 @@
         "newBadge": "New: Douyin image notes"
     },
     "page": {
-        "feedback": "For feedback or suggestions, please ",
-        "feedbackLinkText": "submit an issue on GitHub",
+        "feedback": "Have feedback or suggestions? Click the \"Feedback\" button in the top-right corner.",
+        "feedbackLinkText": "",
         "faqLinkText": "FAQ",
         "openMenuLabel": "Open menu",
         "copyrightVideo": "Copyright Notice: Video copyrights belong to relevant websites and authors",
@@ -51,6 +51,7 @@
         "unknownTitle": "Unknown Title",
         "platforms": {
             "bilibili": "Bilibili",
+            "bilibiliTv": "Bilibili TV",
             "douyin": "Douyin",
             "xiaohongshu": "Xiaohongshu",
             "tiktok": "TikTok",
@@ -173,6 +174,10 @@
             "bilibili": {
                 "name": "Bilibili",
                 "summary": "Video download, audio extraction & share code support"
+            },
+            "bilibiliTv": {
+                "name": "Bilibili TV",
+                "summary": "Separate video/audio stream download support"
             },
             "douyin": {
                 "name": "Douyin",
