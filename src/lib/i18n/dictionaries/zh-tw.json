@@ -181,13 +181,10 @@
             "xiaohongshu": {
                 "name": "小紅書",
                 "summary": "支援影片下載、圖文筆記"
-<<<<<<< HEAD
-=======
             },
             "tiktok": {
                 "name": "TikTok",
                 "summary": "支援影片下載、無浮水印"
->>>>>>> dev
             },
             "comingSoon": "🔄 更多平台即將支援..."
         },
