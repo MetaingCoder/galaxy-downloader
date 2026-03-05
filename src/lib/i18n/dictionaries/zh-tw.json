@@ -171,7 +171,7 @@
             "title": "平台支援指南",
             "bilibili": {
                 "name": "嗶哩嗶哩",
-                "summary": "支援影片/音訊下載"
+                "summary": "支援影片下載、音訊提取、口令解析"
             },
             "douyin": {
                 "name": "抖音",
@@ -179,7 +179,7 @@
             },
             "xiaohongshu": {
                 "name": "小紅書",
-                "summary": "支援圖文/影片筆記"
+                "summary": "支援影片下載、圖文筆記"
             },
             "comingSoon": "🔄 更多平台即將支援..."
         },
