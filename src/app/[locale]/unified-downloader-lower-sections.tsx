@@ -52,7 +52,6 @@ export function UnifiedDownloaderLowerSections({
                         downloadHistory={downloadHistory}
                         clearHistory={clearHistory}
                         onRedownload={onRedownload}
-                        defaultOpen={false}
                     />
                 ) : !historyHydrated ? (
                     <div className="min-h-[84px]" aria-hidden />

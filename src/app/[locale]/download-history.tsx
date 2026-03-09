@@ -4,6 +4,17 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChevronsUpDown } from 'lucide-react';
@@ -81,17 +92,12 @@ export function DownloadHistory({
     downloadHistory,
     clearHistory,
     onRedownload,
-    defaultOpen = false,
+    defaultOpen = true,
 }: DownloadHistoryProps) {
     const [isOpen, setIsOpen] = useState(defaultOpen);
     const [searchQuery, setSearchQuery] = useState('');
 
-    const handleClearHistory = () => {
-        const confirmed = window.confirm(`${dict.history.clear}?`);
-        if (!confirmed) {
-            return;
-        }
-
+    const handleConfirmClearHistory = () => {
         clearHistory();
         toast.success(dict.history.cleared);
     };
@@ -126,9 +132,31 @@ export function DownloadHistory({
                         </div>
                     </CollapsibleTrigger>
                     <div className="flex items-center gap-2">
-                        <Button variant="destructive" size="sm" onClick={handleClearHistory}>
-                            {dict.history.clear}
-                        </Button>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button
+                                    variant="destructive"
+                                    size="sm"
+                                >
+                                    {dict.history.clear}
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent className="sm:max-w-md">
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>{dict.history.clear}?</AlertDialogTitle>
+                                    <AlertDialogDescription>{dict.history.title}</AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>{dict.errors.cancel}</AlertDialogCancel>
+                                    <AlertDialogAction
+                                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                        onClick={handleConfirmClearHistory}
+                                    >
+                                        {dict.history.clear}
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                         <Input
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
