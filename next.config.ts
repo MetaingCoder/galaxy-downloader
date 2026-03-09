@@ -4,7 +4,7 @@ import { i18n } from "./src/lib/i18n/config";
 const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:8080';
 
 const nextConfig: NextConfig = {
-    cacheComponents: false,
+    cacheComponents: true,
     reactCompiler: true,
     experimental: {
         optimizePackageImports: [

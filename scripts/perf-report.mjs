@@ -40,22 +40,22 @@ function normalizeChunkPath(chunkPath) {
   return chunkPath.replace(/^\/+/, '');
 }
 
-function chunkFilePath(chunkPath) {
-  return path.join(NEXT_DIR, normalizeChunkPath(chunkPath));
+function chunkFilePath(chunkPath, buildRoot) {
+  return path.join(buildRoot, normalizeChunkPath(chunkPath));
 }
 
-function sizeOfChunk(chunkPath) {
-  const absolutePath = chunkFilePath(chunkPath);
+function sizeOfChunk(chunkPath, buildRoot) {
+  const absolutePath = chunkFilePath(chunkPath, buildRoot);
   if (!fileExists(absolutePath)) {
     return 0;
   }
   return fs.statSync(absolutePath).size;
 }
 
-function toSizeRows(files) {
+function toSizeRows(files, buildRoot) {
   return files.map((file) => ({
     file,
-    bytes: sizeOfChunk(file),
+    bytes: sizeOfChunk(file, buildRoot),
   }));
 }
 
@@ -88,8 +88,8 @@ function findEntryKey(entryMap, suffix) {
   return Object.keys(entryMap).find((key) => key.endsWith(suffix));
 }
 
-function collectStaticChunkTopN(limit = 15) {
-  const chunksDir = path.join(NEXT_DIR, 'static', 'chunks');
+function collectStaticChunkTopN(buildRoot, limit = 15) {
+  const chunksDir = path.join(buildRoot, 'static', 'chunks');
   if (!fileExists(chunksDir)) {
     return [];
   }
@@ -103,7 +103,7 @@ function collectStaticChunkTopN(limit = 15) {
       const rel = path.posix.join('static/chunks', name);
       return {
         file: rel,
-        bytes: sizeOfChunk(rel),
+        bytes: sizeOfChunk(rel, buildRoot),
       };
     })
     .sort((a, b) => b.bytes - a.bytes);
@@ -111,17 +111,47 @@ function collectStaticChunkTopN(limit = 15) {
   return rows.slice(0, limit);
 }
 
+function resolveBuildRoot(requiredRelativePaths) {
+  const candidates = [NEXT_DIR, path.join(NEXT_DIR, 'dev')];
+
+  for (const candidate of candidates) {
+    const hasAllArtifacts = requiredRelativePaths.every((relativePath) =>
+      fileExists(path.join(candidate, relativePath))
+    );
+
+    if (hasAllArtifacts) {
+      return candidate;
+    }
+  }
+
+  const missingInRoot = requiredRelativePaths.find(
+    (relativePath) => !fileExists(path.join(NEXT_DIR, relativePath))
+  );
+
+  throw new Error(
+    `Missing required build artifact: ${path.relative(PROJECT_ROOT, path.join(NEXT_DIR, missingInRoot || requiredRelativePaths[0]))}`
+  );
+}
+
 function collectReport() {
-  const buildManifestPath = path.join(NEXT_DIR, 'build-manifest.json');
+  const requiredRelativePaths = [
+    path.join('build-manifest.json'),
+    path.join('server', 'app', '[locale]', 'page_client-reference-manifest.js'),
+    path.join('server', 'app', '[locale]', 'page', 'build-manifest.json'),
+    path.join('server', 'app', '[locale]', 'page', 'react-loadable-manifest.json'),
+  ];
+  const buildRoot = resolveBuildRoot(requiredRelativePaths);
+
+  const buildManifestPath = path.join(buildRoot, 'build-manifest.json');
   const rscManifestPath = path.join(
-    NEXT_DIR,
+    buildRoot,
     'server',
     'app',
     '[locale]',
     'page_client-reference-manifest.js'
   );
   const routeBuildManifestPath = path.join(
-    NEXT_DIR,
+    buildRoot,
     'server',
     'app',
     '[locale]',
@@ -129,27 +159,13 @@ function collectReport() {
     'build-manifest.json'
   );
   const routeLoadableManifestPath = path.join(
-    NEXT_DIR,
+    buildRoot,
     'server',
     'app',
     '[locale]',
     'page',
     'react-loadable-manifest.json'
   );
-
-  const requiredFiles = [
-    buildManifestPath,
-    rscManifestPath,
-    routeBuildManifestPath,
-    routeLoadableManifestPath,
-  ];
-  for (const filePath of requiredFiles) {
-    if (!fileExists(filePath)) {
-      throw new Error(
-        `Missing required build artifact: ${path.relative(PROJECT_ROOT, filePath)}`
-      );
-    }
-  }
 
   const rootBuildManifest = readJson(buildManifestPath);
   const routeBuildManifest = readJson(routeBuildManifestPath);
@@ -217,7 +233,7 @@ function collectReport() {
       return { module: modulePath, chunks: [], totalBytes: 0 };
     }
     const chunks = unique((matched[1].chunks || []).map(normalizeChunkPath));
-    const rows = toSizeRows(chunks);
+    const rows = toSizeRows(chunks, buildRoot);
     return {
       module: modulePath,
       chunks: rows,
@@ -225,15 +241,16 @@ function collectReport() {
     };
   });
 
-  const initialJsRows = toSizeRows(initialJsFiles).sort((a, b) => b.bytes - a.bytes);
-  const initialCssRows = toSizeRows(initialCssFiles).sort((a, b) => b.bytes - a.bytes);
-  const lazyJsRows = toSizeRows(lazyJsFiles).sort((a, b) => b.bytes - a.bytes);
-  const lazyCssRows = toSizeRows(lazyCssFiles).sort((a, b) => b.bytes - a.bytes);
+  const initialJsRows = toSizeRows(initialJsFiles, buildRoot).sort((a, b) => b.bytes - a.bytes);
+  const initialCssRows = toSizeRows(initialCssFiles, buildRoot).sort((a, b) => b.bytes - a.bytes);
+  const lazyJsRows = toSizeRows(lazyJsFiles, buildRoot).sort((a, b) => b.bytes - a.bytes);
+  const lazyCssRows = toSizeRows(lazyCssFiles, buildRoot).sort((a, b) => b.bytes - a.bytes);
 
   return {
     generatedAt: new Date().toISOString(),
     route: '/[locale]/page',
     reference: {
+      buildRoot: path.relative(PROJECT_ROOT, buildRoot),
       pageEntryKey: pageEntryKey || null,
       layoutEntryKey: layoutEntryKey || null,
       rootMainFiles: rootMainFiles.map((file) => normalizeChunkPath(file)),
@@ -250,7 +267,7 @@ function collectReport() {
       initialCss: initialCssRows,
       lazyJs: lazyJsRows,
       lazyCss: lazyCssRows,
-      topStaticChunks: collectStaticChunkTopN(),
+      topStaticChunks: collectStaticChunkTopN(buildRoot),
     },
     moduleChunkGroups,
   };

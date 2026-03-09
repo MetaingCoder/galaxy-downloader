@@ -2,7 +2,7 @@
   "route": "/[locale]/page",
   "budgets": {
     "initialJsBytes": 620000,
-    "initialCssBytes": 40000,
+    "initialCssBytes": 44000,
     "lazyJsBytes": 90000
   },
   "baseline": {

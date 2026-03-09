@@ -9,8 +9,8 @@ export function DeferredWebVitalsTracker() {
 
     useEffect(() => {
         let cancelled = false
+        let loaded = false
         let timerId: ReturnType<typeof setTimeout> | null = null
-        let idleId: number | null = null
 
         const loadTracker = async () => {
             try {
@@ -23,21 +23,32 @@ export function DeferredWebVitalsTracker() {
             }
         }
 
-        if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-            idleId = window.requestIdleCallback(() => {
-                void loadTracker()
-            }, { timeout: 2000 })
-        } else {
-            timerId = setTimeout(() => {
-                void loadTracker()
-            }, 1000)
+        const cleanupListeners = () => {
+            window.removeEventListener('pointerdown', triggerLoad)
+            window.removeEventListener('keydown', triggerLoad)
+            window.removeEventListener('touchstart', triggerLoad)
         }
+
+        const triggerLoad = () => {
+            if (loaded) {
+                return
+            }
+            loaded = true
+            cleanupListeners()
+            void loadTracker()
+        }
+
+        window.addEventListener('pointerdown', triggerLoad, { passive: true })
+        window.addEventListener('keydown', triggerLoad)
+        window.addEventListener('touchstart', triggerLoad, { passive: true })
+
+        timerId = setTimeout(() => {
+            triggerLoad()
+        }, 8000)
 
         return () => {
             cancelled = true
-            if (idleId !== null && 'cancelIdleCallback' in window) {
-                window.cancelIdleCallback(idleId)
-            }
+            cleanupListeners()
             if (timerId !== null) {
                 clearTimeout(timerId)
             }

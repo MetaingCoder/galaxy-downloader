@@ -12,5 +12,6 @@ const dictionaries: Record<Locale, Dictionary> = {
 }
 
 export async function getDictionary(locale: Locale): Promise<Dictionary> {
+    'use cache'
     return dictionaries[locale] ?? dictionaries.en
 }

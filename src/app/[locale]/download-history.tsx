@@ -23,6 +23,7 @@ interface DownloadHistoryProps {
     downloadHistory: DownloadRecord[];
     clearHistory: () => void;
     onRedownload?: (url: string) => void;
+    defaultOpen?: boolean;
 }
 
 const DATE_TIME_FORMATTER = new Intl.DateTimeFormat(undefined, {
@@ -75,8 +76,14 @@ const getPlatformBadge = (platform: Platform, dict: HomeDictionary) => {
     }
 };
 
-export function DownloadHistory({ dict, downloadHistory, clearHistory, onRedownload }: DownloadHistoryProps) {
-    const [isOpen, setIsOpen] = useState(true);
+export function DownloadHistory({
+    dict,
+    downloadHistory,
+    clearHistory,
+    onRedownload,
+    defaultOpen = false,
+}: DownloadHistoryProps) {
+    const [isOpen, setIsOpen] = useState(defaultOpen);
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleClearHistory = () => {

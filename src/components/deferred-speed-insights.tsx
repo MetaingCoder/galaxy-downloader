@@ -2,24 +2,24 @@
 
 import { useEffect, useState, type ComponentType } from 'react'
 
-type AnalyticsComponent = ComponentType<Record<string, never>>
+type SpeedInsightsComponent = ComponentType<Record<string, never>>
 
-export function DeferredAnalytics() {
-    const [Analytics, setAnalytics] = useState<AnalyticsComponent | null>(null)
+export function DeferredSpeedInsights() {
+    const [SpeedInsights, setSpeedInsights] = useState<SpeedInsightsComponent | null>(null)
 
     useEffect(() => {
         let cancelled = false
         let loaded = false
         let timerId: ReturnType<typeof setTimeout> | null = null
 
-        const loadAnalytics = async () => {
+        const loadSpeedInsights = async () => {
             try {
-                const mod = await import('@vercel/analytics/next')
+                const mod = await import('@vercel/speed-insights/next')
                 if (!cancelled) {
-                    setAnalytics(() => mod.Analytics as AnalyticsComponent)
+                    setSpeedInsights(() => mod.SpeedInsights as SpeedInsightsComponent)
                 }
             } catch {
-                // Ignore analytics load failures to keep primary UX unaffected.
+                // Ignore optional telemetry load failures.
             }
         }
 
@@ -35,7 +35,7 @@ export function DeferredAnalytics() {
             }
             loaded = true
             cleanupListeners()
-            void loadAnalytics()
+            void loadSpeedInsights()
         }
 
         window.addEventListener('pointerdown', triggerLoad, { passive: true })
@@ -44,7 +44,7 @@ export function DeferredAnalytics() {
 
         timerId = setTimeout(() => {
             triggerLoad()
-        }, 8000)
+        }, 10000)
 
         return () => {
             cancelled = true
@@ -55,9 +55,9 @@ export function DeferredAnalytics() {
         }
     }, [])
 
-    if (!Analytics) {
+    if (!SpeedInsights) {
         return null
     }
 
-    return <Analytics />
+    return <SpeedInsights />
 }

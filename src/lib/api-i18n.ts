@@ -2,24 +2,43 @@ import type { Locale } from '@/lib/i18n/config'
 
 export type ApiLanguage = 'zh-CN' | 'zh-TW' | 'en'
 
+const API_LANGUAGE_BY_LOCALE: Record<Locale, ApiLanguage> = {
+    zh: 'zh-CN',
+    'zh-tw': 'zh-TW',
+    en: 'en',
+}
+
+const API_ACCEPT_LANGUAGE_BY_LOCALE: Record<Locale, string> = {
+    zh: 'zh-CN,zh;q=0.9,en;q=0.6',
+    'zh-tw': 'zh-TW,zh;q=0.9,zh-CN;q=0.8,en;q=0.6',
+    en: 'en-US,en;q=0.9,zh-CN;q=0.6',
+}
+
+const API_I18N_HEADERS_BY_LOCALE: Record<Locale, Record<'x-lang' | 'Accept-Language', string>> = {
+    zh: {
+        'x-lang': API_LANGUAGE_BY_LOCALE.zh,
+        'Accept-Language': API_ACCEPT_LANGUAGE_BY_LOCALE.zh,
+    },
+    'zh-tw': {
+        'x-lang': API_LANGUAGE_BY_LOCALE['zh-tw'],
+        'Accept-Language': API_ACCEPT_LANGUAGE_BY_LOCALE['zh-tw'],
+    },
+    en: {
+        'x-lang': API_LANGUAGE_BY_LOCALE.en,
+        'Accept-Language': API_ACCEPT_LANGUAGE_BY_LOCALE.en,
+    },
+}
+
 export function localeToApiLanguage(locale: Locale): ApiLanguage {
-    if (locale === 'en') return 'en'
-    if (locale === 'zh-tw') return 'zh-TW'
-    return 'zh-CN'
+    return API_LANGUAGE_BY_LOCALE[locale] ?? API_LANGUAGE_BY_LOCALE.en
 }
 
 export function buildApiAcceptLanguage(locale: Locale): string {
-    const lang = localeToApiLanguage(locale)
-    if (lang === 'en') return 'en-US,en;q=0.9,zh-CN;q=0.6'
-    if (lang === 'zh-TW') return 'zh-TW,zh;q=0.9,zh-CN;q=0.8,en;q=0.6'
-    return 'zh-CN,zh;q=0.9,en;q=0.6'
+    return API_ACCEPT_LANGUAGE_BY_LOCALE[locale] ?? API_ACCEPT_LANGUAGE_BY_LOCALE.en
 }
 
 export function buildApiI18nHeaders(locale: Locale): Record<'x-lang' | 'Accept-Language', string> {
-    return {
-        'x-lang': localeToApiLanguage(locale),
-        'Accept-Language': buildApiAcceptLanguage(locale),
-    }
+    return API_I18N_HEADERS_BY_LOCALE[locale] ?? API_I18N_HEADERS_BY_LOCALE.en
 }
 
 export function appendLangQuery(url: string, locale: Locale): string {

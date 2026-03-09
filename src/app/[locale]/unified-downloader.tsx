@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, type ReactNode } from 'react';
+import { startTransition, useEffect, useRef, useState, type ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,12 +8,13 @@ import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 
 import { toast } from '@/lib/deferred-toast';
-import { Loader2, HelpCircle, Menu, Github, History } from 'lucide-react';
+import { Loader2, HelpCircle, Github, History } from 'lucide-react';
 import type { HomeDictionary } from '@/lib/i18n/types';
 import type { Locale } from "@/lib/i18n/config";
 import { DeferredLanguageSwitcher } from "@/components/deferred-language-switcher";
 import { DeferredFeedbackDialog } from '@/components/deferred-feedback-dialog';
 import { DeferredChangelogDialog } from '@/components/deferred-changelog-dialog';
+import { DeferredMobileNavMenu } from '@/components/deferred-mobile-nav-menu';
 import { API_ENDPOINTS } from '@/lib/config';
 import { appendLangQuery, buildApiI18nHeaders } from '@/lib/api-i18n';
 
@@ -22,20 +23,9 @@ import { useLocalStorageState } from '@/hooks/use-local-storage-state';
 import type { UnifiedParseResult } from '@/lib/types';
 import { Platform } from '@/lib/types';
 import { DOWNLOAD_HISTORY_MAX_COUNT, DOWNLOAD_HISTORY_STORAGE_KEY } from '@/lib/constants';
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from '@/components/ui/dialog';
 
-const DownloadHistory = dynamic(
-    () => import('./download-history').then((m) => m.DownloadHistory),
-    { ssr: false }
-);
-const ResultCard = dynamic(
-    () => import('@/components/downloader/ResultCard').then((m) => m.ResultCard),
+const UnifiedDownloaderLowerSections = dynamic(
+    () => import('./unified-downloader-lower-sections').then((m) => m.UnifiedDownloaderLowerSections),
     { ssr: false }
 );
 
@@ -92,10 +82,9 @@ export function UnifiedDownloader({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [parseResult, setParseResult] = useState<UnifiedParseResult['data'] | null>(null);
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const historyRef = useRef<HTMLDivElement>(null);
 
-    const [downloadHistory, setDownloadHistory] = useLocalStorageState<DownloadRecord[]>(DOWNLOAD_HISTORY_STORAGE_KEY, {
+    const [downloadHistory, setDownloadHistory, historyHydrated] = useLocalStorageState<DownloadRecord[]>(DOWNLOAD_HISTORY_STORAGE_KEY, {
         defaultValue: []
     });
     const addToHistory = (record: DownloadRecord) => {
@@ -126,24 +115,29 @@ export function UnifiedDownloader({
 
     // 统一解析处理：只解析不自动下载
     const handleUnifiedParse = async (videoUrl: string) => {
+        void import('./unified-downloader-lower-sections');
+
         // 调用解析接口获取视频信息
         const apiResult = await requestUnifiedParse(videoUrl, locale);
         const platformCode = apiResult.data.platform;
         const platformLabel = getPlatformLabel(platformCode);
 
-        // 直接保存完整 parseResult.data，便于 ResultCard 渲染所有字段
-        setParseResult(apiResult.data);
-
         // 添加到下载历史 - 如果没有 title，使用 desc
         // 使用 API 返回的规范 URL，避免口令等原始输入无法跳转
         const displayTitle = apiResult.data.title || apiResult.data.desc || dict.history.unknownTitle;
-        const newRecord: DownloadRecord = {
+        const nextRecord: DownloadRecord = {
             url: apiResult.data.url || videoUrl,
             title: displayTitle,
             timestamp: Date.now(),
             platform: platformCode as Platform
         };
-        addToHistory(newRecord);
+
+        // Parse result card can be heavy on mobile. Mark as transition to keep interaction responsive.
+        startTransition(() => {
+            // 直接保存完整 parseResult.data，便于 ResultCard 渲染所有字段
+            setParseResult(apiResult.data);
+            addToHistory(nextRecord);
+        });
 
         // 显示成功提示
         toast.success(dict.toast.douyinParseSuccess, {
@@ -190,6 +184,36 @@ export function UnifiedDownloader({
         });
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
+    const hasDownloadHistory = downloadHistory.length > 0;
+    const showHistoryShortcut = historyHydrated && hasDownloadHistory;
+
+    useEffect(() => {
+        let idleId: number | null = null;
+        let timerId: ReturnType<typeof setTimeout> | null = null;
+
+        const preloadInteractiveChunks = () => {
+            void import('./unified-downloader-lower-sections');
+        };
+
+        if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+            idleId = window.requestIdleCallback(() => {
+                preloadInteractiveChunks();
+            }, { timeout: 3000 });
+        } else {
+            timerId = setTimeout(() => {
+                preloadInteractiveChunks();
+            }, 1200);
+        }
+
+        return () => {
+            if (idleId !== null && 'cancelIdleCallback' in window) {
+                window.cancelIdleCallback(idleId);
+            }
+            if (timerId !== null) {
+                clearTimeout(timerId);
+            }
+        };
+    }, []);
 
     return (
         <div className="min-h-screen flex flex-col bg-background">
@@ -198,8 +222,8 @@ export function UnifiedDownloader({
                 style={{ paddingTop: 'env(safe-area-inset-top)' }}
             >
                 <div className="md:hidden max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-1">
-                        {downloadHistory.length > 0 && (
+                    <div className="flex items-center gap-1 min-w-0">
+                        {showHistoryShortcut ? (
                             <Button
                                 variant="ghost"
                                 size="sm"
@@ -214,42 +238,23 @@ export function UnifiedDownloader({
                                 <History className="h-4 w-4" />
                                 <span>{dict.history.title}</span>
                             </Button>
+                        ) : (
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="invisible pointer-events-none flex items-center gap-1.5"
+                                aria-hidden
+                                tabIndex={-1}
+                            >
+                                <History className="h-4 w-4" />
+                                <span>{dict.history.title}</span>
+                            </Button>
                         )}
                     </div>
                     <div className="flex items-center gap-1">
                         <DeferredFeedbackDialog locale={locale} dict={dict} />
                         <DeferredLanguageSwitcher currentLocale={locale} dict={dict} compact />
-                        <Dialog open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-                            <DialogTrigger asChild>
-                                <Button variant="ghost" size="icon" aria-label={dict.page.openMenuLabel}>
-                                    <Menu className="h-5 w-5" />
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent className="top-auto bottom-4 left-1/2 w-[calc(100%-2rem)] max-w-sm translate-x-[-50%] translate-y-0 rounded-xl p-4">
-                                <DialogHeader>
-                                    <DialogTitle className="text-base">{dict.unified.pageTitle}</DialogTitle>
-                                </DialogHeader>
-                                <div className="space-y-2">
-                                    <Button variant="outline" className="w-full justify-start" asChild>
-                                        <a href="https://github.com/lxw15337674/galaxy-downloader" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>
-                                            <Github className="h-4 w-4" />
-                                            <span>GitHub</span>
-                                        </a>
-                                    </Button>
-                                    <Button variant="outline" className="w-full justify-start" asChild>
-                                        <Link href={`/${locale}/faq`} prefetch={false} onClick={() => setMobileMenuOpen(false)}>
-                                            <HelpCircle className="h-4 w-4" />
-                                            <span>{dict.page.faqLinkText}</span>
-                                        </Link>
-                                    </Button>
-                                    <DeferredChangelogDialog
-                                        locale={locale}
-                                        dict={dict}
-                                        triggerClassName="w-full justify-start"
-                                    />
-                                </div>
-                            </DialogContent>
-                        </Dialog>
+                        <DeferredMobileNavMenu locale={locale} dict={dict} />
                     </div>
                 </div>
                 <div className="hidden md:flex max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-3 justify-end items-center gap-1">
@@ -344,30 +349,18 @@ export function UnifiedDownloader({
                                 </CardContent>
                             </Card>
 
-                            {parseResult && (
-                                <ResultCard
-                                    result={parseResult}
-                                    onClose={closeParseResult}
-                                    dict={dict}
-                                />
-                            )}
-
-                            {mobileAd && <div className="lg:hidden">{mobileAd}</div>}
-
-                            {/* 历史记录 */}
-                            {downloadHistory.length > 0 && (
-                                <div ref={historyRef}>
-                                <DownloadHistory
-                                    dict={dict}
-                                    downloadHistory={downloadHistory}
-                                    clearHistory={clearDownloadHistory}
-                                    onRedownload={handleRedownload}
-                                />
-                                </div>
-                            )}
-
-                            {/* 移动端帮助卡片 - 放在历史记录下方 */}
-                            {mobileGuides && <div className="lg:hidden flex flex-col gap-4">{mobileGuides}</div>}
+                            <UnifiedDownloaderLowerSections
+                                dict={dict}
+                                parseResult={parseResult}
+                                onCloseParseResult={closeParseResult}
+                                mobileAd={mobileAd}
+                                mobileGuides={mobileGuides}
+                                downloadHistory={downloadHistory}
+                                clearHistory={clearDownloadHistory}
+                                onRedownload={handleRedownload}
+                                historyRef={historyRef}
+                                historyHydrated={historyHydrated}
+                            />
                         </div>
 
                         {/* 右栏：平台支持指南 (PC端显示，移动端隐藏) */}

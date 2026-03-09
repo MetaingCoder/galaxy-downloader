@@ -8,7 +8,6 @@ import { QuickStartCard } from "@/components/downloader/QuickStartCard"
 import { PlatformGuideCard } from "@/components/downloader/PlatformGuideCard"
 import { FreeSupportCard } from "@/components/downloader/FreeSupportCard"
 import { ViewportSideRailAd } from "@/components/ads/viewport-side-rail-ad"
-import { SideRailAd } from "@/components/ads/side-rail-ad"
 
 export default async function HomePage({
     params,
@@ -49,17 +48,17 @@ export default async function HomePage({
                     <>
                         <QuickStartCard dict={dict} />
                         <FreeSupportCard dict={dict} />
-                        <ViewportSideRailAd slot="1341604736" showOn="desktop" />
+                        <ViewportSideRailAd slot="1341604736" showOn="desktop" height={250} />
                     </>
                 }
                 rightRail={
                     <>
                         <PlatformGuideCard dict={dict} />
-                        <ViewportSideRailAd slot="6380909506" showOn="desktop" />
+                        <ViewportSideRailAd slot="6380909506" showOn="desktop" height={250} />
                     </>
                 }
                 mobileAd={
-                    <SideRailAd slot="5740014745" />
+                    <ViewportSideRailAd slot="5740014745" showOn="mobile" height={250} />
                 }
                 mobileGuides={
                     <>

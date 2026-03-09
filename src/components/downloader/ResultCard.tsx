@@ -229,6 +229,8 @@ function ImageNoteGrid({
     useEffect(() => {
         const currentBlobUrls = new Set<string>();
         blobUrlsRef.current = currentBlobUrls;
+        let cancelled = false;
+        let rafId: number | null = null;
 
         // 初始化加载状态
         const initialStates = new Map<number, ImageLoadState>();
@@ -236,6 +238,22 @@ function ImageNoteGrid({
             initialStates.set(index, { loading: true, error: false, blobUrl: null });
         });
         setImageStates(initialStates);
+        const draftStates = new Map(initialStates);
+
+        const flushStates = () => {
+            rafId = null;
+            if (cancelled) {
+                return;
+            }
+            setImageStates(new Map(draftStates));
+        };
+
+        const scheduleFlush = () => {
+            if (cancelled || rafId !== null) {
+                return;
+            }
+            rafId = window.requestAnimationFrame(flushStates);
+        };
 
         // 获取所有图片
         const fetchImages = async () => {
@@ -261,28 +279,34 @@ function ImageNoteGrid({
                         // 存储到 ref 用于清理
                         currentBlobUrls.add(blobUrl);
 
-                        // 更新状态
-                        setImageStates(prev => {
-                            const updated = new Map(prev);
-                            updated.set(index, { loading: false, error: false, blobUrl });
-                            return updated;
-                        });
+                        draftStates.set(index, { loading: false, error: false, blobUrl });
+                        scheduleFlush();
                     } catch (error) {
                         console.error(`Failed to load image ${index}:`, error);
-                        setImageStates(prev => {
-                            const updated = new Map(prev);
-                            updated.set(index, { loading: false, error: true, blobUrl: null });
-                            return updated;
-                        });
+                        draftStates.set(index, { loading: false, error: true, blobUrl: null });
+                        scheduleFlush();
                     }
                 })
             );
+
+            if (cancelled) {
+                return;
+            }
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            }
+            setImageStates(new Map(draftStates));
         };
 
-        fetchImages();
+        void fetchImages();
 
         // 清理函数：释放所有 blob URLs
         return () => {
+            cancelled = true;
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId);
+            }
             currentBlobUrls.forEach(blobUrl => {
                 URL.revokeObjectURL(blobUrl);
             });

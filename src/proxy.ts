@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import Negotiator from 'negotiator'
 import { i18n } from './lib/i18n/config'
 import {
     isBotUserAgent,
@@ -8,16 +7,46 @@ import {
     resolveLocaleForRequest,
 } from './lib/seo-routing'
 
+const ACCEPT_LANGUAGE_CACHE_LIMIT = 64
+const acceptLanguageCache = new Map<string, string[]>()
+
 function getLocaleFromCookie(request: NextRequest): string | null {
     const cookieLocale = request.cookies.get('preferred-locale')?.value
     return normalizeCookieLocale(cookieLocale ?? null, i18n.locales)
 }
 
 function getAcceptedLanguages(request: NextRequest): string[] {
-    const negotiatorHeaders: Record<string, string> = {}
-    request.headers.forEach((value, key) => (negotiatorHeaders[key] = value))
+    const header = request.headers.get('accept-language')
+    if (!header) {
+        return []
+    }
 
-    return new Negotiator({ headers: negotiatorHeaders }).languages()
+    const cached = acceptLanguageCache.get(header)
+    if (cached) {
+        return cached
+    }
+
+    const parsed = header
+        .split(',')
+        .map((part) => {
+            const [tagPart, qualityPart] = part.trim().split(';q=')
+            const tag = tagPart.trim()
+            const quality = qualityPart ? Number.parseFloat(qualityPart) : 1
+            return { tag, quality: Number.isFinite(quality) ? quality : 0 }
+        })
+        .filter((item) => item.tag.length > 0)
+        .sort((a, b) => b.quality - a.quality)
+        .map((item) => item.tag)
+
+    if (acceptLanguageCache.size >= ACCEPT_LANGUAGE_CACHE_LIMIT) {
+        const oldestKey = acceptLanguageCache.keys().next().value
+        if (oldestKey) {
+            acceptLanguageCache.delete(oldestKey)
+        }
+    }
+    acceptLanguageCache.set(header, parsed)
+
+    return parsed
 }
 
 export function proxy(request: NextRequest) {

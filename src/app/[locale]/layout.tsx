@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import "../globals.css";
+import { DeferredRuntimeServices } from "@/components/deferred-runtime-services"
 import { ThemeProvider } from "@/components/theme-provider";
-import { DeferredAnalytics } from "@/components/deferred-analytics"
 import { DeferredToaster } from "@/components/deferred-toaster"
-import { DeferredWebVitalsTracker } from "@/components/deferred-web-vitals-tracker"
 import { getDictionary } from "@/lib/i18n"
 import type { Locale } from "@/lib/i18n/config"
 import { i18n } from "@/lib/i18n/config"
@@ -19,16 +15,6 @@ import {
     localeToHtmlLang,
     localeToOpenGraphLocale,
 } from "@/lib/seo"
-
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
 
 // 生成静态参数
 export async function generateStaticParams() {
@@ -134,20 +120,10 @@ export default async function RootLayout({
                 <link rel="icon" type="image/x-icon" href="/favicon.ico" />
                 <link rel="apple-touch-icon" href="/favicon.ico" />
                 <link rel="manifest" href="/manifest.json" />
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-                {/* AdSense: 使用原生 script 标签，避免 Next.js Script 组件注入 data-nscript 属性导致 AdSense 报错和水合失败 */}
-                <script
-                    async
-                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1581472267398547"
-                    crossOrigin="anonymous"
-                />
             </head>
-            <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <body className="antialiased">
                 <DeferredToaster />
-                <DeferredAnalytics />
-                <SpeedInsights />
-                <DeferredWebVitalsTracker />
+                <DeferredRuntimeServices />
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="dark"
@@ -156,21 +132,6 @@ export default async function RootLayout({
                 >
                     {children}
                 </ThemeProvider>
-                <Script
-                    strategy="lazyOnload"
-                    src="https://www.googletagmanager.com/gtag/js?id=G-0BEHLKM3W5"
-                />
-                <Script
-                    id="google-analytics"
-                    strategy="lazyOnload"
-                >
-                    {`
-                        window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
-                        gtag('js', new Date());
-                        gtag('config', 'G-0BEHLKM3W5');
-                    `}
-                </Script>
             </body>
         </html>
     );
