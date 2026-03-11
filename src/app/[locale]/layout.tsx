@@ -48,6 +48,15 @@ export async function generateMetadata({
         },
         metadataBase: new URL(SITE_URL),
         category: 'utilities',
+        icons: {
+            icon: [
+                { url: '/favicon.ico' },
+                { url: '/favicon.svg', type: 'image/svg+xml' },
+            ],
+            apple: [
+                { url: '/icons/apple-touch-icon.png' },
+            ],
+        },
         openGraph: {
             title: dict.metadata.ogTitle,
             description: dict.metadata.ogDescription,
@@ -85,6 +94,11 @@ export async function generateMetadata({
         alternates: {
             canonical: localeUrl,
             languages: buildLanguageAlternates(),
+        },
+        appleWebApp: {
+            capable: true,
+            statusBarStyle: 'black-translucent',
+            title: dict.metadata.siteName,
         },
     }
 }
@@ -134,5 +148,5 @@ export default async function RootLayout({
                 </ThemeProvider>
             </body>
         </html>
-    );
+    )
 }

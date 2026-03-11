@@ -14,7 +14,6 @@
     "page": {
         "feedback": "有回饋或建議？點擊右上角「反饋」按鈕告訴我們。",
         "feedbackLinkText": "",
-        "faqLinkText": "常見問題",
         "openMenuLabel": "開啟選單",
         "copyrightVideo": "版權說明：影片版權歸相關網站及作者所有",
         "copyrightStorage": "本站不提供和儲存任何影片及圖片",
@@ -64,7 +63,10 @@
         "linkFilled": "連結已貼上。",
         "douyinParseSuccess": "解析成功",
         "linkFilledForRedownload": "連結已填入",
-        "clickToRedownloadDesc": "點擊解析按鈕開始重新解析"
+        "clickToRedownloadDesc": "點擊解析按鈕開始重新解析",
+        "installTitle": "加入主畫面",
+        "installDescription": "安裝後可一鍵啟動，體驗更流暢",
+        "installAction": "立即安裝"
     },
     "metadata": {
         "title": "通用媒體下載器 - 支援嗶哩嗶哩、抖音、小紅書、TikTok影片音訊下載",
@@ -74,63 +76,47 @@
         "ogDescription": "專業的通用媒體下載工具。支援 嗶哩嗶哩、抖音、小紅書、TikTok等平台的影片音訊下載，自動識別連結平台，一鍵高清下載。",
         "siteName": "通用媒體下載器"
     },
-    "faqPage": {
-        "metaTitle": "影片下載常見問題｜支援 嗶哩嗶哩、抖音、小紅書、TikTok",
-        "metaDescription": "關於 嗶哩嗶哩、抖音、小紅書、TikTok影片下載的常見問題整理，包含無浮水印下載、連結格式、音訊提取、清晰度與解析失敗原因。",
-        "metaOgTitle": "影片下載常見問題｜支援 嗶哩嗶哩、抖音、小紅書、TikTok",
-        "metaOgDescription": "關於 嗶哩嗶哩、抖音、小紅書、TikTok影片下載的常見問題整理，包含無浮水印下載、連結格式、音訊提取、清晰度與解析失敗原因。",
-        "title": "影片下載常見問題（嗶哩嗶哩／抖音／小紅書／TikTok）",
-        "intro": "本工具支援 嗶哩嗶哩、抖音、小紅書、TikTok影片下載與音訊提取。貼上連結即可自動辨識平台並解析下載。",
-        "questions": [
-            {
-                "question": "嗶哩嗶哩影片下載怎麼用？",
-                "answer": "複製 嗶哩嗶哩影片連結，貼到輸入框，點擊解析後選擇影片下載即可。"
-            },
-            {
-                "question": "抖音無浮水印影片怎麼下載？",
-                "answer": "貼上抖音分享連結，系統自動辨識並提供無水印（無浮水印）下載。"
-            },
-            {
-                "question": "小紅書影片下載支援哪些連結？",
-                "answer": "支援小紅書分享連結與短連結，貼上後自動辨識並解析。"
-            },
-            {
-                "question": "是否支援嗶哩嗶哩影片轉音訊/MP3？",
-                "answer": "支援，解析後可選擇音訊下載或提取 MP3。"
-            },
-            {
-                "question": "支援下載哪些清晰度？",
-                "answer": "清晰度取決於來源影片與平台限制，解析後可見可用選項。"
-            },
-            {
-                "question": "為什麼有些影片解析失敗？",
-                "answer": "可能是連結失效、權限限制或平台風控，建議稍後重試。"
-            },
-            {
-                "question": "會員/付費/版權受限內容能下載嗎？",
-                "answer": "不支援下載受版權或付費限制的內容。"
-            },
-            {
-                "question": "需要註冊或登入嗎？",
-                "answer": "不需要，直接貼上連結即可使用。"
-            },
-            {
-                "question": "手機端可以使用嗎？",
-                "answer": "可以，手機瀏覽器開啟並貼上連結即可。"
-            },
-            {
-                "question": "支援哪些瀏覽器？",
-                "answer": "建議使用最新版 Chrome、Edge 或 Safari。"
-            },
-            {
-                "question": "會保存我的下載記錄嗎？",
-                "answer": "不會保存到伺服器，歷史記錄僅存於瀏覽器本地。"
-            },
-            {
-                "question": "解析速度慢怎麼辦？",
-                "answer": "請檢查網路或稍後重試，部分平台可能有限速。"
-            }
-        ]
+    "common": {
+        "home": "首頁",
+        "relatedPages": "相關頁面",
+        "privacy": "隱私政策",
+        "terms": "使用條款",
+        "contact": "聯絡我們",
+        "trustAndPolicies": "信任與政策"
+    },
+    "contactPage": {
+        "metaTitle": "聯絡我們｜通用媒體下載器",
+        "metaDescription": "聯絡下載工具團隊，提交問題回報、功能建議或 SEO 反饋。",
+        "title": "聯絡我們",
+        "intro": "你可以透過以下方式提交問題回報或功能建議。",
+        "github": "前往 GitHub 提交 Issue",
+        "githubHint": "適合回報錯誤與提出功能需求。"
+    },
+    "privacyPage": {
+        "metaTitle": "隱私政策｜通用媒體下載器",
+        "metaDescription": "說明本站如何處理資料、瀏覽器儲存、分析服務與隱私保護。",
+        "title": "隱私政策",
+        "intro": "本頁說明在使用下載工具時，網站如何處理相關資料。",
+        "points": [
+            "本站無需註冊帳號即可使用。",
+            "下載歷史僅儲存在你的瀏覽器本地儲存中。",
+            "本站不保存你的私人媒體檔案。",
+            "分析或廣告等第三方服務可能依其政策收集使用資料。"
+        ],
+        "updated": "最後更新：2026-02-18"
+    },
+    "termsPage": {
+        "metaTitle": "使用條款｜通用媒體下載器",
+        "metaDescription": "說明下載工具的使用條件、限制與責任範圍。",
+        "title": "使用條款",
+        "intro": "使用本服務即表示你同意遵守相關版權規範與平台規則。",
+        "points": [
+            "僅可在合法且具授權的前提下使用本工具。",
+            "不得用於繞過付費、會員或版權保護限制。",
+            "下載內容的使用方式由使用者自行負責。",
+            "本站可能在未事先通知的情況下調整功能。"
+        ],
+        "updated": "最後更新：2026-02-18"
     },
     "languages": {
         "zh": "简体中文",
@@ -273,62 +259,6 @@
                 "無需註冊",
                 "支援多種影片格式",
                 "瀏覽器處理"
-            ]
-        },
-        "faq": {
-            "en": [
-                {
-                    "question": "How to download Bilibili audio?",
-                    "answer": "Paste the Bilibili video link into the input field, click download, and the MP3 audio will be extracted and downloaded automatically."
-                },
-                {
-                    "question": "How to download Douyin videos without watermark?",
-                    "answer": "Paste the Douyin video link, the tool will automatically detect the platform and provide a watermark-free download link."
-                },
-                {
-                    "question": "How to download Xiaohongshu images and videos?",
-                    "answer": "Copy the Xiaohongshu note link, paste it into the input box, and the tool will automatically parse and provide watermark-free images or video downloads."
-                },
-                {
-                    "question": "Is this tool free to use?",
-                    "answer": "Yes, this is a completely free online tool with no registration required. You can download unlimited videos and audio files."
-                }
-            ],
-            "zh": [
-                {
-                    "question": "如何下載嗶哩嗶哩音訊？",
-                    "answer": "將嗶哩嗶哩影片連結貼上到輸入框中，點擊下載，系統會自動提取並下載MP3音訊檔案。"
-                },
-                {
-                    "question": "如何下載抖音無浮水印影片？",
-                    "answer": "貼上抖音影片連結，工具會自動識別平台並提供無浮水印下載連結。"
-                },
-                {
-                    "question": "如何下載小紅書圖片和影片？",
-                    "answer": "複製小紅書筆記連結，貼上到輸入框中，工具會自動解析並提供無浮水印圖片或影片下載。"
-                },
-                {
-                    "question": "這個工具免費嗎？",
-                    "answer": "是的，這是一個完全免費的線上工具，無需註冊。您可以無限制下載影片和音訊檔案。"
-                }
-            ],
-            "zh-tw": [
-                {
-                    "question": "如何下載嗶哩嗶哩音訊？",
-                    "answer": "將嗶哩嗶哩影片連結貼上到輸入框中，點擊下載，系統會自動提取並下載MP3音訊檔案。"
-                },
-                {
-                    "question": "如何下載抖音無浮水印影片？",
-                    "answer": "貼上抖音影片連結，工具會自動識別平台並提供無浮水印下載連結。"
-                },
-                {
-                    "question": "如何下載小紅書圖片和影片？",
-                    "answer": "複製小紅書筆記連結，貼上到輸入框中，工具會自動解析並提供無浮水印圖片或影片下載。"
-                },
-                {
-                    "question": "這個工具免費嗎？",
-                    "answer": "是的，這是一個完全免費的線上工具，無需註冊。您可以無限制下載影片和音訊檔案。"
-                }
             ]
         },
         "howTo": {

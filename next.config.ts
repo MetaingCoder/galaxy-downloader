@@ -1,5 +1,12 @@
 import type { NextConfig } from "next";
 import { i18n } from "./src/lib/i18n/config";
+import withSerwistInit from "@serwist/next";
+
+const withSerwist = withSerwistInit({
+    swSrc: "src/sw.ts",
+    swDest: "public/sw.js",
+    disable: process.env.NODE_ENV === "development",
+});
 
 const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:8080';
 
@@ -35,4 +42,4 @@ const nextConfig: NextConfig = {
     },
 };
 
-export default nextConfig;
+export default withSerwist(nextConfig);

@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import type { ReactNode } from 'react';
 import type { HomeDictionary } from "@/lib/i18n/types";
 import type { Locale } from "@/lib/i18n/config";
+import { HomeI18nProvider } from "@/lib/i18n/home-context";
 
 const UnifiedDownloaderDynamic = dynamic(
     () => import("./unified-downloader").then((m) => m.UnifiedDownloader)
@@ -31,15 +32,15 @@ export function UnifiedDownloaderClient({
     footer,
 }: Props) {
     return (
-        <UnifiedDownloaderDynamic
-            dict={dict}
-            locale={locale}
-            leftRail={leftRail}
-            rightRail={rightRail}
-            mobileAd={mobileAd}
-            mobileGuides={mobileGuides}
-            heroMeta={heroMeta}
-            footer={footer}
-        />
+        <HomeI18nProvider locale={locale} dict={dict}>
+            <UnifiedDownloaderDynamic
+                leftRail={leftRail}
+                rightRail={rightRail}
+                mobileAd={mobileAd}
+                mobileGuides={mobileGuides}
+                heroMeta={heroMeta}
+                footer={footer}
+            />
+        </HomeI18nProvider>
     );
 }

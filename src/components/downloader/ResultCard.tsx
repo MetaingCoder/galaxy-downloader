@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import dynamic from 'next/dynamic';
 import { X, Download, Loader2, Package } from 'lucide-react';
 import Image from "next/image";
-import type { HomeDictionary } from '@/lib/i18n/types';
+import { useHomeDictionary } from '@/lib/i18n/home-context';
 import { UnifiedParseResult, PageInfo } from "../../lib/types";
 import { downloadFile, formatDuration, sanitizeFilename } from "../../lib/utils";
 import { useState, useEffect, useRef } from 'react';
@@ -17,7 +17,6 @@ const ExtractAudioButton = dynamic(
 interface ResultCardProps {
     result: UnifiedParseResult['data'] | null | undefined
     onClose: () => void;
-    dict: HomeDictionary;
 }
 
 function resolveCoverSrc(coverUrl: string): string {
@@ -31,7 +30,8 @@ function replaceTemplate(template: string, token: string, value: string): string
     return template.replace(token, value);
 }
 
-export function ResultCard({ result, onClose, dict }: ResultCardProps) {
+export function ResultCard({ result, onClose }: ResultCardProps) {
+    const dict = useHomeDictionary()
     if (!result) return null;
 
     const isMultiPart = result.isMultiPart && result.pages && result.pages.length > 1;
@@ -64,7 +64,6 @@ export function ResultCard({ result, onClose, dict }: ResultCardProps) {
                             images={[coverSrc]}
                             title={displayTitle}
                             platform={result.platform}
-                            dict={dict}
                             singleImageMode
                         />
                     )}
@@ -73,16 +72,14 @@ export function ResultCard({ result, onClose, dict }: ResultCardProps) {
                             images={result.images!}
                             title={displayTitle}
                             platform={result.platform}
-                            dict={dict}
                         />
                     ) : isMultiPart ? (
                         <MultiPartList
                             pages={result.pages!}
                             currentPage={result.currentPage}
-                            dict={dict}
                         />
                     ) : (
-                        <SinglePartButtons result={result} dict={dict} />
+                        <SinglePartButtons result={result} />
                     )}
                 </div>
             </CardContent>
@@ -93,7 +90,8 @@ export function ResultCard({ result, onClose, dict }: ResultCardProps) {
 /**
  * 单P视频的下载按钮
  */
-function SinglePartButtons({ result, dict }: { result: NonNullable<UnifiedParseResult['data']>; dict: HomeDictionary }) {
+function SinglePartButtons({ result }: { result: NonNullable<UnifiedParseResult['data']> }) {
+    const dict = useHomeDictionary()
     const showExtractAudio = result.platform === 'douyin' || result.platform === 'xiaohongshu' || result.platform === 'tiktok';
     const hideVideoDownload = result.platform === 'bilibili_tv';
     const videoDownloadUrl = result.downloadVideoUrl || result.originDownloadVideoUrl;
@@ -129,7 +127,6 @@ function SinglePartButtons({ result, dict }: { result: NonNullable<UnifiedParseR
                     <ExtractAudioButton
                         videoUrl={videoDownloadUrl}
                         title={result.title}
-                        dict={dict}
                     />
                 )}
             </div>
@@ -140,7 +137,8 @@ function SinglePartButtons({ result, dict }: { result: NonNullable<UnifiedParseR
 /**
  * 多P视频的分P列表
  */
-function MultiPartList({ pages, currentPage, dict }: { pages: PageInfo[]; currentPage?: number; dict: HomeDictionary }) {
+function MultiPartList({ pages, currentPage }: { pages: PageInfo[]; currentPage?: number }) {
+    const dict = useHomeDictionary()
     return (
         <div className="space-y-2">
             <div className="text-sm text-muted-foreground">
@@ -203,15 +201,14 @@ function ImageNoteGrid({
     images,
     title,
     platform,
-    dict,
     singleImageMode = false,
 }: {
     images: string[];
     title: string;
     platform: string;
-    dict: HomeDictionary;
     singleImageMode?: boolean;
 }) {
+    const dict = useHomeDictionary()
     // 合并的状态类型
     type ImageLoadState = {
         loading: boolean;

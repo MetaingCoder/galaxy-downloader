@@ -4,7 +4,6 @@ export function pickHomeDictionary(dict: Dictionary): HomeDictionary {
     return {
         unified: dict.unified,
         page: {
-            faqLinkText: dict.page.faqLinkText,
             openMenuLabel: dict.page.openMenuLabel,
         },
         form: dict.form,

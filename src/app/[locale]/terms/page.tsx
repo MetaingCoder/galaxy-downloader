@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { PageStructuredData } from "@/components/page-structured-data"
+import { getDictionary } from "@/lib/i18n"
 import type { Locale } from "@/lib/i18n/config"
 import {
     buildLanguageAlternates,
@@ -15,17 +16,9 @@ export async function generateMetadata({
     params: Promise<{ locale: Locale }>
 }): Promise<Metadata> {
     const { locale } = await params
-    const title = locale === "en"
-        ? "Terms of Use | Universal Media Downloader"
-        : locale === "zh-tw"
-          ? "使用條款｜通用媒體下載器"
-          : "使用条款｜通用媒体下载器"
-    const siteName = locale === "en" ? "Universal Media Downloader" : locale === "zh-tw" ? "通用媒體下載器" : "通用媒体下载器"
-    const description = locale === "en"
-        ? "Usage terms, legal limitations, and user responsibilities for Universal Media Downloader."
-        : locale === "zh-tw"
-          ? "說明下載工具的使用條件、限制與責任範圍。"
-          : "说明下载工具的使用条件、限制与责任范围。"
+    const dict = await getDictionary(locale)
+    const title = dict.termsPage.metaTitle
+    const description = dict.termsPage.metaDescription
     const url = buildLocaleUrl(locale, "/terms")
 
     return {
@@ -35,7 +28,7 @@ export async function generateMetadata({
             title,
             description,
             url,
-            siteName,
+            siteName: dict.metadata.siteName,
             locale: localeToOpenGraphLocale(locale),
             alternateLocale: buildOpenGraphLocaleAlternates(locale),
             type: "website",
@@ -60,56 +53,8 @@ export default async function TermsPage({
     params: Promise<{ locale: Locale }>
 }) {
     const { locale } = await params
-    const copy = locale === "en"
-        ? {
-            title: "Terms of Use",
-            intro: "By using this service, you agree to follow applicable copyright and platform rules.",
-            points: [
-                "Use the tool only for lawful and authorized content access.",
-                "Do not use the service to bypass payment, membership, or copyright protection.",
-                "You are responsible for how downloaded files are used.",
-                "The service may change functionality at any time without prior notice.",
-            ],
-            updated: "Last updated: February 18, 2026",
-            home: "Home",
-            linksLabel: "Related pages",
-            privacy: "Privacy Policy",
-            contact: "Contact",
-            faq: "FAQ",
-        }
-        : locale === "zh-tw"
-          ? {
-              title: "使用條款",
-              intro: "使用本服務即表示你同意遵守相關版權規範與平台規則。",
-              points: [
-                  "僅可在合法且具授權的前提下使用本工具。",
-                  "不得用於繞過付費、會員或版權保護限制。",
-                  "下載內容的使用方式由使用者自行負責。",
-                  "本站可能在未事先通知的情況下調整功能。",
-              ],
-              updated: "最後更新：2026-02-18",
-              home: "首頁",
-              linksLabel: "相關頁面",
-              privacy: "隱私政策",
-              contact: "聯絡我們",
-              faq: "常見問題",
-          }
-          : {
-              title: "使用条款",
-              intro: "使用本服务即表示你同意遵守相关版权规范与平台规则。",
-              points: [
-                  "仅可在合法且有授权的前提下使用本工具。",
-                  "不得用于绕过付费、会员或版权保护限制。",
-                  "下载内容的使用方式由用户自行负责。",
-                  "本站可能在未提前通知的情况下调整功能。",
-              ],
-              updated: "最后更新：2026-02-18",
-              home: "首页",
-              linksLabel: "相关页面",
-              privacy: "隐私政策",
-              contact: "联系我们",
-              faq: "常见问题",
-          }
+    const dict = await getDictionary(locale)
+    const copy = dict.termsPage
 
     return (
         <main className="min-h-screen bg-background">
@@ -125,13 +70,11 @@ export default async function TermsPage({
                 </ul>
                 <p className="text-xs text-muted-foreground">{copy.updated}</p>
                 <p className="text-sm text-muted-foreground">
-                    {copy.linksLabel}
+                    {dict.common.relatedPages}
                     {": "}
-                    <Link className="underline" href={`/${locale}/privacy`}>{copy.privacy}</Link>
+                    <Link className="underline" href={`/${locale}/privacy`}>{dict.common.privacy}</Link>
                     {' · '}
-                    <Link className="underline" href={`/${locale}/contact`}>{copy.contact}</Link>
-                    {' · '}
-                    <Link className="underline" href={`/${locale}/faq`}>{copy.faq}</Link>
+                    <Link className="underline" href={`/${locale}/contact`}>{dict.common.contact}</Link>
                 </p>
             </div>
             <PageStructuredData
@@ -140,7 +83,7 @@ export default async function TermsPage({
                 pageDescription={copy.intro}
                 path="/terms"
                 breadcrumbs={[
-                    { name: copy.home, path: "" },
+                    { name: dict.common.home, path: "" },
                     { name: copy.title, path: "/terms" },
                 ]}
             />

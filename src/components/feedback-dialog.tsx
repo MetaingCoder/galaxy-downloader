@@ -21,16 +21,13 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { MessageSquare, Loader2, CheckCircle2 } from 'lucide-react'
 import { toast } from '@/lib/deferred-toast'
-import type { Locale } from '@/lib/i18n/config'
-import type { HomeDictionary } from '@/lib/i18n/types'
+import { useHomeDictionary, useHomeLocale } from '@/lib/i18n/home-context'
 import type { FeedbackType } from '@/lib/feedback-config'
 import { submitFeedback, validateContent, validateEmail } from '@/lib/feedback'
 import { FEEDBACK_CONFIG } from '@/lib/feedback-config'
 import { cn } from '@/lib/utils'
 
 interface FeedbackDialogProps {
-    locale: Locale
-    dict: HomeDictionary
     triggerClassName?: string
     triggerIconOnly?: boolean
     defaultOpen?: boolean
@@ -38,13 +35,13 @@ interface FeedbackDialogProps {
 }
 
 export function FeedbackDialog({
-    locale,
-    dict,
     triggerClassName,
     triggerIconOnly = false,
     defaultOpen = false,
     onTriggerClick,
 }: FeedbackDialogProps) {
+    const locale = useHomeLocale()
+    const dict = useHomeDictionary()
     const feedback = dict.feedback
     const [open, setOpen] = useState(defaultOpen)
     const [feedbackType, setFeedbackType] = useState<FeedbackType>('bug')

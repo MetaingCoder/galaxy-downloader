@@ -14,7 +14,6 @@
     "page": {
         "feedback": "有反馈或建议？点击右上角「反馈」按钮告诉我们。",
         "feedbackLinkText": "",
-        "faqLinkText": "常见问题",
         "openMenuLabel": "打开菜单",
         "copyrightVideo": "版权说明：视频版权归相关网站及作者所有",
         "copyrightStorage": "本站不提供和存储任何视频及图片",
@@ -64,7 +63,10 @@
         "linkFilled": "链接已粘贴。",
         "douyinParseSuccess": "解析成功",
         "linkFilledForRedownload": "链接已填入",
-        "clickToRedownloadDesc": "点击解析按钮开始重新解析"
+        "clickToRedownloadDesc": "点击解析按钮开始重新解析",
+        "installTitle": "添加到桌面",
+        "installDescription": "安装后可一键启动，体验更流畅",
+        "installAction": "立即安装"
     },
     "metadata": {
         "title": "通用媒体下载器 - 支持哔哩哔哩、抖音、小红书、TikTok视频音频下载",
@@ -74,63 +76,47 @@
         "ogDescription": "专业的通用媒体下载工具。支持 哔哩哔哩、抖音、小红书、TikTok等平台的视频音频下载，自动识别链接平台，一键高清下载。",
         "siteName": "通用媒体下载器"
     },
-    "faqPage": {
-        "metaTitle": "视频下载常见问题｜支持哔哩哔哩、抖音、小红书、TikTok",
-        "metaDescription": "关于哔哩哔哩、抖音、小红书、TikTok视频下载的常见问题解答，包含无水印下载、链接格式、音频提取、清晰度与解析失败原因。",
-        "metaOgTitle": "视频下载常见问题｜支持哔哩哔哩、抖音、小红书、TikTok",
-        "metaOgDescription": "关于哔哩哔哩、抖音、小红书、TikTok视频下载的常见问题解答，包含无水印下载、链接格式、音频提取、清晰度与解析失败原因。",
-        "title": "视频下载常见问题（哔哩哔哩/抖音/小红书/TikTok）",
-        "intro": "本工具支持哔哩哔哩、抖音、小红书、TikTok视频下载与音频提取。粘贴链接即可自动识别平台并解析下载。",
-        "questions": [
-            {
-                "question": "哔哩哔哩视频下载怎么用？",
-                "answer": "复制哔哩哔哩视频链接，粘贴到输入框，点击解析后选择视频下载即可。"
-            },
-            {
-                "question": "抖音无水印视频怎么下载？",
-                "answer": "粘贴抖音分享链接，系统自动识别并提供无水印视频下载。"
-            },
-            {
-                "question": "小红书视频下载支持哪些链接？",
-                "answer": "支持小红书分享链接与短链接/短链，粘贴后自动识别并解析。"
-            },
-            {
-                "question": "是否支持哔哩哔哩视频转音频/MP3？",
-                "answer": "支持，解析后可选择音频下载或提取MP3。"
-            },
-            {
-                "question": "支持下载哪些清晰度？",
-                "answer": "清晰度取决于源视频与平台限制，解析后可见可用选项。"
-            },
-            {
-                "question": "为什么有些视频解析失败？",
-                "answer": "可能是链接失效、权限限制或平台风控，建议稍后重试。"
-            },
-            {
-                "question": "会员/付费/版权受限内容能下载吗？",
-                "answer": "不支持下载受版权或付费限制的内容。"
-            },
-            {
-                "question": "需要注册或登录吗？",
-                "answer": "不需要，直接粘贴链接即可使用。"
-            },
-            {
-                "question": "手机端可以使用吗？",
-                "answer": "可以，移动端浏览器访问并粘贴链接即可。"
-            },
-            {
-                "question": "支持哪些浏览器？",
-                "answer": "推荐使用最新版 Chrome、Edge 或 Safari。"
-            },
-            {
-                "question": "会保存我的下载记录吗？",
-                "answer": "不保存到服务器，历史记录仅存于浏览器本地。"
-            },
-            {
-                "question": "解析速度慢怎么办？",
-                "answer": "请检查网络或稍后重试，部分平台可能有速度限制。"
-            }
-        ]
+    "common": {
+        "home": "首页",
+        "relatedPages": "相关页面",
+        "privacy": "隐私政策",
+        "terms": "使用条款",
+        "contact": "联系我们",
+        "trustAndPolicies": "信任与政策"
+    },
+    "contactPage": {
+        "metaTitle": "联系我们｜通用媒体下载器",
+        "metaDescription": "联系下载工具团队，提交问题反馈、功能建议或 SEO 反馈。",
+        "title": "联系我们",
+        "intro": "你可以通过以下方式提交问题反馈或功能建议。",
+        "github": "前往 GitHub 提交 Issue",
+        "githubHint": "适合反馈 Bug 和提出功能需求。"
+    },
+    "privacyPage": {
+        "metaTitle": "隐私政策｜通用媒体下载器",
+        "metaDescription": "说明本站如何处理数据、浏览器存储、分析服务与隐私保护。",
+        "title": "隐私政策",
+        "intro": "本页说明在使用下载工具时，网站如何处理相关数据。",
+        "points": [
+            "本站无需注册账号即可使用。",
+            "下载历史仅存储在你的浏览器本地存储中。",
+            "本站不保存你的私人媒体文件。",
+            "分析或广告等第三方服务可能按其政策收集使用数据。"
+        ],
+        "updated": "最后更新：2026-02-18"
+    },
+    "termsPage": {
+        "metaTitle": "使用条款｜通用媒体下载器",
+        "metaDescription": "说明下载工具的使用条件、限制与责任范围。",
+        "title": "使用条款",
+        "intro": "使用本服务即表示你同意遵守相关版权规范与平台规则。",
+        "points": [
+            "仅可在合法且有授权的前提下使用本工具。",
+            "不得用于绕过付费、会员或版权保护限制。",
+            "下载内容的使用方式由用户自行负责。",
+            "本站可能在未提前通知的情况下调整功能。"
+        ],
+        "updated": "最后更新：2026-02-18"
     },
     "languages": {
         "zh": "简体中文",
@@ -273,62 +259,6 @@
                 "无需注册",
                 "支持多种视频格式",
                 "浏览器处理"
-            ]
-        },
-        "faq": {
-            "en": [
-                {
-                    "question": "How to download Bilibili audio?",
-                    "answer": "Paste the Bilibili video link into the input field, click download, and the MP3 audio will be extracted and downloaded automatically."
-                },
-                {
-                    "question": "How to download Douyin videos without watermark?",
-                    "answer": "Paste the Douyin video link, the tool will automatically detect the platform and provide a watermark-free download link."
-                },
-                {
-                    "question": "How to download Xiaohongshu images and videos?",
-                    "answer": "Copy the Xiaohongshu note link, paste it into the input box, and the tool will automatically parse and provide watermark-free images or video downloads."
-                },
-                {
-                    "question": "Is this tool free to use?",
-                    "answer": "Yes, this is a completely free online tool with no registration required. You can download unlimited videos and audio files."
-                }
-            ],
-            "zh": [
-                {
-                    "question": "如何下载哔哩哔哩音频？",
-                    "answer": "将哔哩哔哩视频链接粘贴到输入框中，点击下载，系统会自动提取并下载MP3音频文件。"
-                },
-                {
-                    "question": "如何下载抖音无水印视频？",
-                    "answer": "粘贴抖音视频链接，工具会自动识别平台并提供无水印下载链接。"
-                },
-                {
-                    "question": "如何下载小红书图片和视频？",
-                    "answer": "复制小红书笔记链接，粘贴到输入框中，工具会自动解析并提供无水印图片或视频下载。"
-                },
-                {
-                    "question": "这个工具免费吗？",
-                    "answer": "是的，这是一个完全免费的在线工具，无需注册。您可以无限制下载视频和音频文件。"
-                }
-            ],
-            "zh-tw": [
-                {
-                    "question": "如何下载哔哩哔哩音频？",
-                    "answer": "将哔哩哔哩视频链接粘贴到输入框中，点击下载，系统会自动提取并下载MP3音频文件。"
-                },
-                {
-                    "question": "如何下载抖音无水印视频？",
-                    "answer": "粘贴抖音视频链接，工具会自动识别平台并提供无水印下载链接。"
-                },
-                {
-                    "question": "如何下载小红书图片和视频？",
-                    "answer": "复制小红书笔记链接，粘贴到输入框中，工具会自动解析并提供无水印图片或视频下载。"
-                },
-                {
-                    "question": "这个工具免费吗？",
-                    "answer": "是的，这是一个完全免费的在线工具，无需注册。您可以无限制下载视频和音频文件。"
-                }
             ]
         },
         "howTo": {

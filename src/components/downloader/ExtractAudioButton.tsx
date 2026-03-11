@@ -4,16 +4,16 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Loader2, Music, AlertCircle, CheckCircle } from 'lucide-react';
 import { useFFmpeg, FFmpegStatus } from '@/hooks/use-ffmpeg';
-import type { HomeDictionary } from '@/lib/i18n/types';
+import { useHomeDictionary } from '@/lib/i18n/home-context';
 import { formatBytes } from '@/lib/utils';
 
 interface ExtractAudioButtonProps {
   videoUrl: string;
   title: string;
-  dict: HomeDictionary;
 }
 
-export function ExtractAudioButton({ videoUrl, title, dict }: ExtractAudioButtonProps) {
+export function ExtractAudioButton({ videoUrl, title }: ExtractAudioButtonProps) {
+  const dict = useHomeDictionary();
   const { status, progress, progressInfo, error, extractAudio, reset } = useFFmpeg();
 
   const handleClick = () => {

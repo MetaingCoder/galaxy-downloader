@@ -5,11 +5,9 @@ import dynamic from 'next/dynamic';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import Link from "next/link";
 
 import { toast } from '@/lib/deferred-toast';
-import { Loader2, HelpCircle, Github, History } from 'lucide-react';
-import type { HomeDictionary } from '@/lib/i18n/types';
+import { Loader2, Github, History } from 'lucide-react';
 import type { Locale } from "@/lib/i18n/config";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { FeedbackDialog } from '@/components/feedback-dialog';
@@ -20,9 +18,11 @@ import { appendLangQuery, buildApiI18nHeaders } from '@/lib/api-i18n';
 
 import type { DownloadRecord } from './download-history';
 import { useLocalStorageState } from '@/hooks/use-local-storage-state';
+import { useInstallPrompt } from '@/hooks/use-install-prompt';
 import type { UnifiedParseResult } from '@/lib/types';
 import { Platform } from '@/lib/types';
 import { DOWNLOAD_HISTORY_MAX_COUNT, DOWNLOAD_HISTORY_STORAGE_KEY } from '@/lib/constants';
+import { useHomeI18n } from '@/lib/i18n/home-context';
 
 const UnifiedDownloaderLowerSections = dynamic(
     () => import('./unified-downloader-lower-sections').then((m) => m.UnifiedDownloaderLowerSections),
@@ -30,8 +30,6 @@ const UnifiedDownloaderLowerSections = dynamic(
 );
 
 interface UnifiedDownloaderProps {
-    dict: HomeDictionary;
-    locale: Locale;
     leftRail?: ReactNode;
     rightRail?: ReactNode;
     mobileAd?: ReactNode;
@@ -69,8 +67,6 @@ async function requestUnifiedParse(videoUrl: string, locale: Locale): Promise<Un
 }
 
 export function UnifiedDownloader({
-    dict,
-    locale,
     leftRail,
     rightRail,
     mobileAd,
@@ -78,6 +74,7 @@ export function UnifiedDownloader({
     heroMeta,
     footer,
 }: UnifiedDownloaderProps) {
+    const { dict, locale } = useHomeI18n()
     const [url, setUrl] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -87,6 +84,8 @@ export function UnifiedDownloader({
     const [downloadHistory, setDownloadHistory, historyHydrated] = useLocalStorageState<DownloadRecord[]>(DOWNLOAD_HISTORY_STORAGE_KEY, {
         defaultValue: []
     });
+    const { canPrompt, promptInstall, dismiss } = useInstallPrompt();
+    const hasPromptedInstall = useRef(false);
     const addToHistory = (record: DownloadRecord) => {
         setDownloadHistory(prev => [record, ...(prev || []).slice(0, DOWNLOAD_HISTORY_MAX_COUNT - 1)]);
     };
@@ -143,6 +142,20 @@ export function UnifiedDownloader({
         toast.success(dict.toast.douyinParseSuccess, {
             description: `${platformLabel}: ${displayTitle}`,
         });
+
+        // 首次解析成功后提示安装 PWA
+        if (canPrompt && !hasPromptedInstall.current) {
+            hasPromptedInstall.current = true;
+            toast(dict.toast.installTitle, {
+                description: dict.toast.installDescription,
+                duration: 10000,
+                action: {
+                    label: dict.toast.installAction,
+                    onClick: promptInstall,
+                },
+                onDismiss: dismiss,
+            });
+        }
     };
 
     const closeParseResult = () => {
@@ -252,9 +265,9 @@ export function UnifiedDownloader({
                         )}
                     </div>
                     <div className="flex items-center gap-1">
-                        <FeedbackDialog locale={locale} dict={dict} />
-                        <LanguageSwitcher currentLocale={locale} dict={dict} compact />
-                        <MobileNavMenu locale={locale} dict={dict} />
+                        <FeedbackDialog />
+                        <LanguageSwitcher compact />
+                        <MobileNavMenu />
                     </div>
                 </div>
                 <div className="hidden md:flex max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-3 justify-end items-center gap-1">
@@ -264,15 +277,9 @@ export function UnifiedDownloader({
                             <span>GitHub</span>
                         </a>
                     </Button>
-                    <Button variant="ghost" size="sm" asChild>
-                        <Link href={`/${locale}/faq`} prefetch={false} className="flex items-center gap-1">
-                            <HelpCircle className="h-4 w-4" />
-                            <span>{dict.page.faqLinkText}</span>
-                        </Link>
-                    </Button>
-                    <FeedbackDialog locale={locale} dict={dict} />
-                    <ChangelogDialog locale={locale} dict={dict} />
-                    <LanguageSwitcher currentLocale={locale} dict={dict} />
+                    <FeedbackDialog />
+                    <ChangelogDialog />
+                    <LanguageSwitcher />
                 </div>
             </div>
 
@@ -350,7 +357,6 @@ export function UnifiedDownloader({
                             </Card>
 
                             <UnifiedDownloaderLowerSections
-                                dict={dict}
                                 parseResult={parseResult}
                                 onCloseParseResult={closeParseResult}
                                 mobileAd={mobileAd}

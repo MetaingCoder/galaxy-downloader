@@ -14,7 +14,6 @@
     "page": {
         "feedback": "Have feedback or suggestions? Click the \"Feedback\" button in the top-right corner.",
         "feedbackLinkText": "",
-        "faqLinkText": "FAQ",
         "openMenuLabel": "Open menu",
         "copyrightVideo": "Copyright Notice: Video copyrights belong to relevant websites and authors",
         "copyrightStorage": "This site does not provide or store any videos or images",
@@ -64,7 +63,10 @@
         "linkFilled": "Link pasted.",
         "douyinParseSuccess": "Successfully parsed",
         "linkFilledForRedownload": "Link filled",
-        "clickToRedownloadDesc": "Click parse button to start re-parsing"
+        "clickToRedownloadDesc": "Click parse button to start re-parsing",
+        "installTitle": "Add to Home Screen",
+        "installDescription": "Install for quick one-tap access",
+        "installAction": "Install"
     },
     "metadata": {
         "title": "Universal Media Downloader for Bilibili, Douyin, Xiaohongshu, TikTok",
@@ -74,63 +76,47 @@
         "ogDescription": "Professional universal media download tool. Supports video and audio downloads from Bilibili, Douyin, Xiaohongshu, TikTok and more platforms, auto-detect platform, one-click high-quality download.",
         "siteName": "Universal Media Downloader"
     },
-    "faqPage": {
-        "metaTitle": "Video Download FAQ | Bilibili, Douyin, Xiaohongshu, TikTok Supported",
-        "metaDescription": "FAQ for video downloads on Bilibili, Douyin, Xiaohongshu, and TikTok, including no-watermark downloads, link formats, audio extraction, quality options, and parsing issues.",
-        "metaOgTitle": "Video Download FAQ | Bilibili, Douyin, Xiaohongshu, TikTok Supported",
-        "metaOgDescription": "FAQ for video downloads on Bilibili, Douyin, Xiaohongshu, and TikTok, including no-watermark downloads, link formats, audio extraction, quality options, and parsing issues.",
-        "title": "Video Download FAQ (Bilibili / Douyin / Xiaohongshu / TikTok)",
-        "intro": "This tool supports video downloads and audio extraction for Bilibili, Douyin, Xiaohongshu, and TikTok. Paste a link to auto-detect the platform and show download options.",
-        "questions": [
-            {
-                "question": "How to download Bilibili videos?",
-                "answer": "Paste the Bilibili video link, click parse, then choose video download."
-            },
-            {
-                "question": "How to download Douyin videos without watermark?",
-                "answer": "Paste the Douyin share link and the tool will provide a no-watermark download."
-            },
-            {
-                "question": "What Xiaohongshu links are supported?",
-                "answer": "Share links and short links are supported; paste to parse automatically."
-            },
-            {
-                "question": "Can I extract MP3 from Bilibili videos?",
-                "answer": "Yes. After parsing, you can choose audio download or MP3 extraction."
-            },
-            {
-                "question": "What video quality can I download?",
-                "answer": "Available quality depends on the source video and platform limits."
-            },
-            {
-                "question": "Why does parsing sometimes fail?",
-                "answer": "The link may be invalid, restricted, or blocked by platform controls."
-            },
-            {
-                "question": "Can I download paid or restricted content?",
-                "answer": "No. Copyright-restricted or paid content is not supported."
-            },
-            {
-                "question": "Do I need to register or log in?",
-                "answer": "No. Just paste the link to use the tool."
-            },
-            {
-                "question": "Does it work on mobile?",
-                "answer": "Yes. Open the site in a mobile browser and paste the link."
-            },
-            {
-                "question": "Which browsers are supported?",
-                "answer": "We recommend the latest Chrome, Edge, or Safari."
-            },
-            {
-                "question": "Do you store my download history?",
-                "answer": "No. History is stored only in your browser locally."
-            },
-            {
-                "question": "What if parsing is slow?",
-                "answer": "Check your network or try again later; some platforms throttle speed."
-            }
-        ]
+    "common": {
+        "home": "Home",
+        "relatedPages": "Related pages",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Use",
+        "contact": "Contact",
+        "trustAndPolicies": "Trust & Policies"
+    },
+    "contactPage": {
+        "metaTitle": "Contact | Universal Media Downloader",
+        "metaDescription": "Contact Universal Media Downloader for support, bug reports, feature requests, and SEO feedback.",
+        "title": "Contact",
+        "intro": "Use the channels below to report issues or request new features.",
+        "github": "Open a GitHub Issue",
+        "githubHint": "Best for bug reports and feature requests."
+    },
+    "privacyPage": {
+        "metaTitle": "Privacy Policy | Universal Media Downloader",
+        "metaDescription": "How Universal Media Downloader handles data, browser storage, analytics, and privacy protection.",
+        "title": "Privacy Policy",
+        "intro": "This page explains what data is processed when using the downloader.",
+        "points": [
+            "No account registration is required.",
+            "Download history is stored in your browser local storage.",
+            "The service does not store your private media files on this website.",
+            "Third-party services such as analytics or ads may collect usage data according to their own policies."
+        ],
+        "updated": "Last updated: February 18, 2026"
+    },
+    "termsPage": {
+        "metaTitle": "Terms of Use | Universal Media Downloader",
+        "metaDescription": "Usage terms, legal limitations, and user responsibilities for Universal Media Downloader.",
+        "title": "Terms of Use",
+        "intro": "By using this service, you agree to follow applicable copyright and platform rules.",
+        "points": [
+            "Use the tool only for lawful and authorized content access.",
+            "Do not use the service to bypass payment, membership, or copyright protection.",
+            "You are responsible for how downloaded files are used.",
+            "The service may change functionality at any time without prior notice."
+        ],
+        "updated": "Last updated: February 18, 2026"
     },
     "languages": {
         "zh": "简体中文",
@@ -272,62 +258,6 @@
                 "无需注册",
                 "支持多种视频格式",
                 "浏览器处理"
-            ]
-        },
-        "faq": {
-            "en": [
-                {
-                    "question": "How to download Bilibili audio?",
-                    "answer": "Paste the Bilibili video link into the input field, click download, and the MP3 audio will be extracted and downloaded automatically."
-                },
-                {
-                    "question": "How to download Douyin videos without watermark?",
-                    "answer": "Paste the Douyin video link, the tool will automatically detect the platform and provide a watermark-free download link."
-                },
-                {
-                    "question": "How to download Xiaohongshu images and videos?",
-                    "answer": "Copy the Xiaohongshu note link, paste it into the input box, and the tool will automatically parse and provide watermark-free images or video downloads."
-                },
-                {
-                    "question": "Is this tool free to use?",
-                    "answer": "Yes, this is a completely free online tool with no registration required. You can download unlimited videos and audio files."
-                }
-            ],
-            "zh": [
-                {
-                    "question": "如何下载哔哩哔哩音频？",
-                    "answer": "将哔哩哔哩视频链接粘贴到输入框中，点击下载，系统会自动提取并下载MP3音频文件。"
-                },
-                {
-                    "question": "如何下载抖音无水印视频？",
-                    "answer": "粘贴抖音视频链接，工具会自动识别平台并提供无水印下载链接。"
-                },
-                {
-                    "question": "如何下载小红书图片和视频？",
-                    "answer": "复制小红书笔记链接，粘贴到输入框中，工具会自动解析并提供无水印图片或视频下载。"
-                },
-                {
-                    "question": "这个工具免费吗？",
-                    "answer": "是的，这是一个完全免费的在线工具，无需注册。您可以无限制下载视频和音频文件。"
-                }
-            ],
-            "zh-tw": [
-                {
-                    "question": "如何下载哔哩哔哩音频？",
-                    "answer": "将哔哩哔哩视频链接粘贴到输入框中，点击下载，系统会自动提取并下载MP3音频文件。"
-                },
-                {
-                    "question": "如何下载抖音无水印视频？",
-                    "answer": "粘贴抖音视频链接，工具会自动识别平台并提供无水印下载链接。"
-                },
-                {
-                    "question": "如何下载小红书图片和视频？",
-                    "answer": "复制小红书笔记链接，粘贴到输入框中，工具会自动解析并提供无水印图片或视频下载。"
-                },
-                {
-                    "question": "这个工具免费吗？",
-                    "answer": "是的，这是一个完全免费的在线工具，无需注册。您可以无限制下载视频和音频文件。"
-                }
             ]
         },
         "howTo": {

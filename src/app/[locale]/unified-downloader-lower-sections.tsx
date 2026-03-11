@@ -1,13 +1,11 @@
 'use client';
 
 import type { ReactNode, RefObject } from 'react';
-import type { HomeDictionary } from '@/lib/i18n/types';
 import type { UnifiedParseResult } from '@/lib/types';
 import { ResultCard } from '@/components/downloader/ResultCard';
 import { DownloadHistory, type DownloadRecord } from './download-history';
 
 interface UnifiedDownloaderLowerSectionsProps {
-    dict: HomeDictionary;
     parseResult: UnifiedParseResult['data'] | null;
     onCloseParseResult: () => void;
     mobileAd?: ReactNode;
@@ -20,7 +18,6 @@ interface UnifiedDownloaderLowerSectionsProps {
 }
 
 export function UnifiedDownloaderLowerSections({
-    dict,
     parseResult,
     onCloseParseResult,
     mobileAd,
@@ -39,7 +36,6 @@ export function UnifiedDownloaderLowerSections({
                 <ResultCard
                     result={parseResult}
                     onClose={onCloseParseResult}
-                    dict={dict}
                 />
             )}
 
@@ -48,7 +44,6 @@ export function UnifiedDownloaderLowerSections({
             <div ref={historyRef}>
                 {hasDownloadHistory ? (
                     <DownloadHistory
-                        dict={dict}
                         downloadHistory={downloadHistory}
                         clearHistory={clearHistory}
                         onRedownload={onRedownload}

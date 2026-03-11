@@ -19,8 +19,8 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChevronsUpDown } from 'lucide-react';
 import { toast } from '@/lib/deferred-toast';
+import { useHomeDictionary } from '@/lib/i18n/home-context';
 import { Platform } from '../../lib/types';
-import type { HomeDictionary } from '../../lib/i18n/types';
 
 export interface DownloadRecord {
     url: string;
@@ -30,7 +30,6 @@ export interface DownloadRecord {
 }
 
 interface DownloadHistoryProps {
-    dict: HomeDictionary;
     downloadHistory: DownloadRecord[];
     clearHistory: () => void;
     onRedownload?: (url: string) => void;
@@ -51,7 +50,7 @@ function formatRecordTimestamp(timestamp: number): string {
 }
 
 // 获取平台标签样式
-const getPlatformBadge = (platform: Platform, dict: HomeDictionary) => {
+function getPlatformBadge(platform: Platform, dict: ReturnType<typeof useHomeDictionary>) {
     switch (platform) {
         case 'bili':
         case 'bilibili':
@@ -85,15 +84,15 @@ const getPlatformBadge = (platform: Platform, dict: HomeDictionary) => {
                 className: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300'
             };
     }
-};
+}
 
 export function DownloadHistory({
-    dict,
     downloadHistory,
     clearHistory,
     onRedownload,
     defaultOpen = true,
 }: DownloadHistoryProps) {
+    const dict = useHomeDictionary()
     const [isOpen, setIsOpen] = useState(defaultOpen);
     const [searchQuery, setSearchQuery] = useState('');
 

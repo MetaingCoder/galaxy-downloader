@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { Github, HelpCircle, Menu } from 'lucide-react'
+import { Github, Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
     Dialog,
@@ -12,20 +11,16 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog'
 import { ChangelogDialog } from '@/components/changelog-dialog'
-import type { Locale } from '@/lib/i18n/config'
-import type { HomeDictionary } from '@/lib/i18n/types'
+import { useHomeDictionary } from '@/lib/i18n/home-context'
 
 interface MobileNavMenuProps {
-    locale: Locale
-    dict: HomeDictionary
     defaultOpen?: boolean
 }
 
 export function MobileNavMenu({
-    locale,
-    dict,
     defaultOpen = false,
 }: MobileNavMenuProps) {
+    const dict = useHomeDictionary()
     const [open, setOpen] = useState(defaultOpen)
 
     return (
@@ -51,15 +46,7 @@ export function MobileNavMenu({
                             <span>GitHub</span>
                         </a>
                     </Button>
-                    <Button variant="outline" className="w-full justify-start" asChild>
-                        <Link href={`/${locale}/faq`} prefetch={false} onClick={() => setOpen(false)}>
-                            <HelpCircle className="h-4 w-4" />
-                            <span>{dict.page.faqLinkText}</span>
-                        </Link>
-                    </Button>
                     <ChangelogDialog
-                        locale={locale}
-                        dict={dict}
                         triggerClassName="w-full justify-start"
                     />
                 </div>

@@ -25,15 +25,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
                 },
             },
             {
-                url: `${localeBase}/faq`,
-                lastModified,
-                changeFrequency: 'monthly' as const,
-                priority: locale === i18n.defaultLocale ? 0.8 : 0.7,
-                alternates: {
-                    languages: buildLanguageAlternates('/faq'),
-                },
-            },
-            {
                 url: `${localeBase}/privacy`,
                 lastModified,
                 changeFrequency: 'yearly' as const,

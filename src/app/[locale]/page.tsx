@@ -17,26 +17,6 @@ export default async function HomePage({
     const { locale } = await params
     const dict = await getDictionary(locale)
     const homeDict = pickHomeDictionary(dict)
-    const seoCopy = locale === 'en'
-        ? {
-            trustLabel: 'Trust & Policies',
-            privacyLabel: 'Privacy Policy',
-            termsLabel: 'Terms of Use',
-            contactLabel: 'Contact',
-        }
-        : locale === 'zh-tw'
-          ? {
-              trustLabel: '信任與政策',
-              privacyLabel: '隱私政策',
-              termsLabel: '使用條款',
-              contactLabel: '聯絡我們',
-          }
-          : {
-              trustLabel: '信任与政策',
-              privacyLabel: '隐私政策',
-              termsLabel: '使用条款',
-              contactLabel: '联系我们',
-          }
 
     return (
         <>
@@ -78,23 +58,18 @@ export default async function HomePage({
                             <div className="text-center text-xs text-muted-foreground space-y-1">
                                 <p className="text-yellow-600 font-medium">{dict.page.copyrightBilibiliRestriction}</p>
                                 <p>
-                                    <Link className="underline" href={`/${locale}/faq`} prefetch={false}>
-                                        {dict.page.faqLinkText}
-                                    </Link>
-                                </p>
-                                <p>
-                                    {seoCopy.trustLabel}
+                                    {dict.common.trustAndPolicies}
                                     {': '}
                                     <Link className="underline" href={`/${locale}/privacy`} prefetch={false}>
-                                        {seoCopy.privacyLabel}
+                                        {dict.common.privacy}
                                     </Link>
                                     {' · '}
                                     <Link className="underline" href={`/${locale}/terms`} prefetch={false}>
-                                        {seoCopy.termsLabel}
+                                        {dict.common.terms}
                                     </Link>
                                     {' · '}
                                     <Link className="underline" href={`/${locale}/contact`} prefetch={false}>
-                                        {seoCopy.contactLabel}
+                                        {dict.common.contact}
                                     </Link>
                                 </p>
                                 <p>{dict.page.copyrightVideo}</p>

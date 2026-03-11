@@ -20,6 +20,22 @@ export interface ResultDict {
     packagingProgress: string;
 }
 
+export interface CommonDict {
+    home: string;
+    relatedPages: string;
+    privacy: string;
+    terms: string;
+    contact: string;
+    trustAndPolicies: string;
+}
+
+export interface StaticPageMetaDict {
+    metaTitle: string;
+    metaDescription: string;
+    title: string;
+    intro: string;
+}
+
 export interface Dictionary {
     home: {
         title: string;
@@ -36,7 +52,6 @@ export interface Dictionary {
     page: {
         feedback: string;
         feedbackLinkText: string;
-        faqLinkText: string;
         openMenuLabel: string;
         copyrightVideo: string;
         copyrightStorage: string;
@@ -86,6 +101,9 @@ export interface Dictionary {
         douyinParseSuccess: string;
         linkFilledForRedownload: string;
         clickToRedownloadDesc: string;
+        installTitle: string;
+        installDescription: string;
+        installAction: string;
     };
     metadata: {
         title: string;
@@ -95,6 +113,7 @@ export interface Dictionary {
         ogDescription: string;
         siteName: string;
     };
+    common: CommonDict;
     languages: {
         zh: string;
         'zh-tw': string;
@@ -212,20 +231,6 @@ export interface Dictionary {
             zh: string[];
             'zh-tw': string[];
         };
-        faq: {
-            en: Array<{
-                question: string;
-                answer: string;
-            }>;
-            zh: Array<{
-                question: string;
-                answer: string;
-            }>;
-            'zh-tw': Array<{
-                question: string;
-                answer: string;
-            }>;
-        };
         howTo: {
             title: {
                 en: string;
@@ -248,17 +253,17 @@ export interface Dictionary {
             };
         };
     };
-    faqPage: {
-        metaTitle: string;
-        metaDescription: string;
-        metaOgTitle: string;
-        metaOgDescription: string;
-        title: string;
-        intro: string;
-        questions: Array<{
-            question: string;
-            answer: string;
-        }>;
+    contactPage: StaticPageMetaDict & {
+        github: string;
+        githubHint: string;
+    };
+    privacyPage: StaticPageMetaDict & {
+        points: string[];
+        updated: string;
+    };
+    termsPage: StaticPageMetaDict & {
+        points: string[];
+        updated: string;
     };
     result: ResultDict;
     changelog: {
@@ -306,7 +311,7 @@ export interface Dictionary {
 
 export interface HomeDictionary {
     unified: Dictionary['unified'];
-    page: Pick<Dictionary['page'], 'faqLinkText' | 'openMenuLabel'>;
+    page: Pick<Dictionary['page'], 'openMenuLabel'>;
     form: Dictionary['form'];
     errors: Dictionary['errors'];
     history: Dictionary['history'];

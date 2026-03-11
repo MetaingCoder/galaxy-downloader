@@ -5,8 +5,7 @@ import dynamic from 'next/dynamic'
 import { Globe, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import type { Locale } from '@/lib/i18n/config'
-import type { HomeDictionary } from '@/lib/i18n/types'
+import { useHomeDictionary, useHomeLocale } from '@/lib/i18n/home-context'
 
 const LanguageSwitcher = dynamic(
     () => import('@/components/language-switcher').then((m) => m.LanguageSwitcher),
@@ -14,23 +13,19 @@ const LanguageSwitcher = dynamic(
 )
 
 interface DeferredLanguageSwitcherProps {
-    currentLocale: Locale
-    dict: HomeDictionary
     compact?: boolean
 }
 
 export function DeferredLanguageSwitcher({
-    currentLocale,
-    dict,
     compact = false,
 }: DeferredLanguageSwitcherProps) {
+    const currentLocale = useHomeLocale()
+    const dict = useHomeDictionary()
     const [mounted, setMounted] = useState(false)
 
     if (mounted) {
         return (
             <LanguageSwitcher
-                currentLocale={currentLocale}
-                dict={dict}
                 compact={compact}
                 defaultOpen
             />

@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { PageStructuredData } from "@/components/page-structured-data"
+import { getDictionary } from "@/lib/i18n"
 import type { Locale } from "@/lib/i18n/config"
 import {
     buildLanguageAlternates,
@@ -15,17 +16,9 @@ export async function generateMetadata({
     params: Promise<{ locale: Locale }>
 }): Promise<Metadata> {
     const { locale } = await params
-    const title = locale === "en"
-        ? "Contact | Universal Media Downloader"
-        : locale === "zh-tw"
-          ? "聯絡我們｜通用媒體下載器"
-          : "联系我们｜通用媒体下载器"
-    const siteName = locale === "en" ? "Universal Media Downloader" : locale === "zh-tw" ? "通用媒體下載器" : "通用媒体下载器"
-    const description = locale === "en"
-        ? "Contact Universal Media Downloader for support, bug reports, feature requests, and SEO feedback."
-        : locale === "zh-tw"
-          ? "聯絡下載工具團隊，提交問題回報、功能建議或 SEO 反饋。"
-          : "联系下载工具团队，提交问题反馈、功能建议或 SEO 反馈。"
+    const dict = await getDictionary(locale)
+    const title = dict.contactPage.metaTitle
+    const description = dict.contactPage.metaDescription
     const url = buildLocaleUrl(locale, "/contact")
 
     return {
@@ -35,7 +28,7 @@ export async function generateMetadata({
             title,
             description,
             url,
-            siteName,
+            siteName: dict.metadata.siteName,
             locale: localeToOpenGraphLocale(locale),
             alternateLocale: buildOpenGraphLocaleAlternates(locale),
             type: "website",
@@ -60,41 +53,8 @@ export default async function ContactPage({
     params: Promise<{ locale: Locale }>
 }) {
     const { locale } = await params
-    const copy = locale === "en"
-        ? {
-            title: "Contact",
-            intro: "Use the channels below to report issues or request new features.",
-            github: "Open a GitHub Issue",
-            githubHint: "Best for bug reports and feature requests.",
-            home: "Home",
-            linksLabel: "Related pages",
-            privacy: "Privacy Policy",
-            terms: "Terms of Use",
-            faq: "FAQ",
-        }
-        : locale === "zh-tw"
-          ? {
-              title: "聯絡我們",
-              intro: "你可以透過以下方式提交問題回報或功能建議。",
-              github: "前往 GitHub 提交 Issue",
-              githubHint: "適合回報錯誤與提出功能需求。",
-              home: "首頁",
-              linksLabel: "相關頁面",
-              privacy: "隱私政策",
-              terms: "使用條款",
-              faq: "常見問題",
-          }
-          : {
-              title: "联系我们",
-              intro: "你可以通过以下方式提交问题反馈或功能建议。",
-              github: "前往 GitHub 提交 Issue",
-              githubHint: "适合反馈 Bug 和提出功能需求。",
-              home: "首页",
-              linksLabel: "相关页面",
-              privacy: "隐私政策",
-              terms: "使用条款",
-              faq: "常见问题",
-          }
+    const dict = await getDictionary(locale)
+    const copy = dict.contactPage
 
     return (
         <main className="min-h-screen bg-background">
@@ -113,15 +73,13 @@ export default async function ContactPage({
                     <p className="text-sm text-muted-foreground">{copy.githubHint}</p>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                    {copy.linksLabel}
+                    {dict.common.relatedPages}
                     {": "}
-                    <Link className="underline" href={`/${locale}`}>{copy.home}</Link>
+                    <Link className="underline" href={`/${locale}`}>{dict.common.home}</Link>
                     {' · '}
-                    <Link className="underline" href={`/${locale}/privacy`}>{copy.privacy}</Link>
+                    <Link className="underline" href={`/${locale}/privacy`}>{dict.common.privacy}</Link>
                     {' · '}
-                    <Link className="underline" href={`/${locale}/terms`}>{copy.terms}</Link>
-                    {' · '}
-                    <Link className="underline" href={`/${locale}/faq`}>{copy.faq}</Link>
+                    <Link className="underline" href={`/${locale}/terms`}>{dict.common.terms}</Link>
                 </p>
             </div>
             <PageStructuredData
@@ -130,7 +88,7 @@ export default async function ContactPage({
                 pageDescription={copy.intro}
                 path="/contact"
                 breadcrumbs={[
-                    { name: copy.home, path: "" },
+                    { name: dict.common.home, path: "" },
                     { name: copy.title, path: "/contact" },
                 ]}
             />

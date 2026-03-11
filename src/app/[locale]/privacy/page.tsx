@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { PageStructuredData } from "@/components/page-structured-data"
+import { getDictionary } from "@/lib/i18n"
 import type { Locale } from "@/lib/i18n/config"
 import {
     buildLanguageAlternates,
@@ -15,17 +16,9 @@ export async function generateMetadata({
     params: Promise<{ locale: Locale }>
 }): Promise<Metadata> {
     const { locale } = await params
-    const title = locale === "en"
-        ? "Privacy Policy | Universal Media Downloader"
-        : locale === "zh-tw"
-          ? "隱私政策｜通用媒體下載器"
-          : "隐私政策｜通用媒体下载器"
-    const siteName = locale === "en" ? "Universal Media Downloader" : locale === "zh-tw" ? "通用媒體下載器" : "通用媒体下载器"
-    const description = locale === "en"
-        ? "How Universal Media Downloader handles data, browser storage, analytics, and privacy protection."
-        : locale === "zh-tw"
-          ? "說明本站如何處理資料、瀏覽器儲存、分析服務與隱私保護。"
-          : "说明本站如何处理数据、浏览器存储、分析服务与隐私保护。"
+    const dict = await getDictionary(locale)
+    const title = dict.privacyPage.metaTitle
+    const description = dict.privacyPage.metaDescription
     const url = buildLocaleUrl(locale, "/privacy")
 
     return {
@@ -35,7 +28,7 @@ export async function generateMetadata({
             title,
             description,
             url,
-            siteName,
+            siteName: dict.metadata.siteName,
             locale: localeToOpenGraphLocale(locale),
             alternateLocale: buildOpenGraphLocaleAlternates(locale),
             type: "website",
@@ -60,56 +53,8 @@ export default async function PrivacyPage({
     params: Promise<{ locale: Locale }>
 }) {
     const { locale } = await params
-    const copy = locale === "en"
-        ? {
-            title: "Privacy Policy",
-            intro: "This page explains what data is processed when using the downloader.",
-            points: [
-                "No account registration is required.",
-                "Download history is stored in your browser local storage.",
-                "The service does not store your private media files on this website.",
-                "Third-party services such as analytics or ads may collect usage data according to their own policies.",
-            ],
-            updated: "Last updated: February 18, 2026",
-            home: "Home",
-            linksLabel: "Related pages",
-            faq: "FAQ",
-            terms: "Terms of Use",
-            contact: "Contact",
-        }
-        : locale === "zh-tw"
-          ? {
-              title: "隱私政策",
-              intro: "本頁說明在使用下載工具時，網站如何處理相關資料。",
-              points: [
-                  "本站無需註冊帳號即可使用。",
-                  "下載歷史僅儲存在你的瀏覽器本地儲存中。",
-                  "本站不保存你的私人媒體檔案。",
-                  "分析或廣告等第三方服務可能依其政策收集使用資料。",
-              ],
-              updated: "最後更新：2026-02-18",
-              home: "首頁",
-              linksLabel: "相關頁面",
-              faq: "常見問題",
-              terms: "使用條款",
-              contact: "聯絡我們",
-          }
-          : {
-              title: "隐私政策",
-              intro: "本页说明在使用下载工具时，网站如何处理相关数据。",
-              points: [
-                  "本站无需注册账号即可使用。",
-                  "下载历史仅存储在你的浏览器本地存储中。",
-                  "本站不保存你的私人媒体文件。",
-                  "分析或广告等第三方服务可能按其政策收集使用数据。",
-              ],
-              updated: "最后更新：2026-02-18",
-              home: "首页",
-              linksLabel: "相关页面",
-              faq: "常见问题",
-              terms: "使用条款",
-              contact: "联系我们",
-          }
+    const dict = await getDictionary(locale)
+    const copy = dict.privacyPage
 
     return (
         <main className="min-h-screen bg-background">
@@ -125,13 +70,11 @@ export default async function PrivacyPage({
                 </ul>
                 <p className="text-xs text-muted-foreground">{copy.updated}</p>
                 <p className="text-sm text-muted-foreground">
-                    {copy.linksLabel}
+                    {dict.common.relatedPages}
                     {": "}
-                    <Link className="underline" href={`/${locale}/faq`}>{copy.faq}</Link>
+                    <Link className="underline" href={`/${locale}/terms`}>{dict.common.terms}</Link>
                     {' · '}
-                    <Link className="underline" href={`/${locale}/terms`}>{copy.terms}</Link>
-                    {' · '}
-                    <Link className="underline" href={`/${locale}/contact`}>{copy.contact}</Link>
+                    <Link className="underline" href={`/${locale}/contact`}>{dict.common.contact}</Link>
                 </p>
             </div>
             <PageStructuredData
@@ -140,7 +83,7 @@ export default async function PrivacyPage({
                 pageDescription={copy.intro}
                 path="/privacy"
                 breadcrumbs={[
-                    { name: copy.home, path: "" },
+                    { name: dict.common.home, path: "" },
                     { name: copy.title, path: "/privacy" },
                 ]}
             />

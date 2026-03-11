@@ -5,8 +5,7 @@ import dynamic from 'next/dynamic'
 import { ScrollText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import type { Locale } from '@/lib/i18n/config'
-import type { HomeDictionary } from '@/lib/i18n/types'
+import { useHomeDictionary } from '@/lib/i18n/home-context'
 
 const ChangelogDialog = dynamic(
     () => import('@/components/changelog-dialog').then((m) => m.ChangelogDialog),
@@ -14,26 +13,21 @@ const ChangelogDialog = dynamic(
 )
 
 interface DeferredChangelogDialogProps {
-    locale: Locale
-    dict: HomeDictionary
     triggerClassName?: string
     triggerIconOnly?: boolean
 }
 
 export function DeferredChangelogDialog({
-    locale,
-    dict,
     triggerClassName,
     triggerIconOnly = false,
 }: DeferredChangelogDialogProps) {
+    const dict = useHomeDictionary()
     const [mounted, setMounted] = useState(false)
     const title = dict.changelog.title
 
     if (mounted) {
         return (
             <ChangelogDialog
-                locale={locale}
-                dict={dict}
                 triggerClassName={triggerClassName}
                 triggerIconOnly={triggerIconOnly}
                 defaultOpen

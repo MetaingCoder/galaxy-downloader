@@ -17,7 +17,7 @@ test('detects bot user agents', () => {
 
 test('returns locale from pathname when locale prefix exists', () => {
     const locale = resolveLocaleForRequest({
-        pathname: '/en/faq',
+        pathname: '/en/contact',
         userAgent: 'Mozilla/5.0',
         cookieLocale: 'zh',
         acceptLanguages: ['zh-CN'],
@@ -29,7 +29,7 @@ test('returns locale from pathname when locale prefix exists', () => {
 
 test('uses cookie locale for normal users when no locale prefix', () => {
     const locale = resolveLocaleForRequest({
-        pathname: '/faq',
+        pathname: '/contact',
         userAgent: 'Mozilla/5.0',
         cookieLocale: 'zh-tw',
         acceptLanguages: ['en-US'],
@@ -41,7 +41,7 @@ test('uses cookie locale for normal users when no locale prefix', () => {
 
 test('bots ignore cookie locale and use accept-language', () => {
     const locale = resolveLocaleForRequest({
-        pathname: '/faq',
+        pathname: '/contact',
         userAgent: 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
         cookieLocale: 'zh',
         acceptLanguages: ['en-US', 'en'],
