@@ -95,6 +95,7 @@ export async function generateMetadata({
             canonical: localeUrl,
             languages: buildLanguageAlternates(),
         },
+        manifest: buildLocaleUrl(locale, "manifest.webmanifest"),
         appleWebApp: {
             capable: true,
             statusBarStyle: 'black-translucent',
@@ -133,7 +134,6 @@ export default async function RootLayout({
                 <meta httpEquiv="x-ua-compatible" content="ie=edge" />
                 <link rel="icon" type="image/x-icon" href="/favicon.ico" />
                 <link rel="apple-touch-icon" href="/favicon.ico" />
-                <link rel="manifest" href="/manifest.json" />
             </head>
             <body className="antialiased">
                 <DeferredToaster />
