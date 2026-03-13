@@ -95,7 +95,7 @@ export async function generateMetadata({
             canonical: localeUrl,
             languages: buildLanguageAlternates(),
         },
-        manifest: buildLocaleUrl(locale, "manifest.webmanifest"),
+        manifest: "/manifest.webmanifest",
         appleWebApp: {
             capable: true,
             statusBarStyle: 'black-translucent',
