@@ -318,7 +318,7 @@ export function UnifiedDownloader({
                                     <h1 className="text-2xl text-center font-semibold tracking-tight">
                                         {dict.unified.pageTitle}
                                     </h1>
-                                    <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1.5 flex-wrap">
+                                    <p className="text-xs text-foreground/70 text-center flex items-center justify-center gap-1.5 flex-wrap">
                                         {dict.unified.pageDescription}
                                     </p>
                                     {heroMeta}

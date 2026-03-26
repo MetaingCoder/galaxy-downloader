@@ -50,10 +50,10 @@ export function ResultCard({ result, onClose }: ResultCardProps) {
                         <X className="h-4 w-4" />
                     </Button>
                 </div>
-                <p className="text-sm text-muted-foreground break-all">
+                <p className="text-sm text-foreground/80 break-all">
                     {displayTitle}
                     {result.duration != null && (
-                        <span className="ml-2 text-xs">({formatDuration(result.duration)})</span>
+                        <span className="ml-2 text-xs text-foreground/70">({formatDuration(result.duration)})</span>
                     )}
                 </p>
             </CardHeader>
@@ -163,7 +163,7 @@ function MultiPartList({ pages, currentPage }: { pages: PageInfo[]; currentPage?
 
     return (
         <div className="space-y-2">
-            <div className="text-sm text-muted-foreground">
+            <div className="text-sm text-foreground/75">
                 {replaceTemplate(dict.result.totalParts, '{count}', String(pages.length))}
             </div>
             <div className="max-h-[300px] overflow-y-auto space-y-2 pr-1">
@@ -177,18 +177,18 @@ function MultiPartList({ pages, currentPage }: { pages: PageInfo[]; currentPage?
                         }`}
                     >
                         <div className="flex items-start md:items-center gap-2 flex-1 min-w-0">
-                            <span className="text-xs font-medium text-muted-foreground shrink-0">
+                            <span className="text-xs font-medium text-foreground/70 shrink-0">
                                 P{page.page}
                             </span>
                             <div className="flex-1 min-w-0">
                                 <div className="text-sm line-clamp-2 md:truncate break-words" title={page.part}>
                                     {page.part}
                                 </div>
-                                <span className="text-xs text-muted-foreground md:hidden">
+                                <span className="text-xs text-foreground/65 md:hidden">
                                     {formatDuration(page.duration)}
                                 </span>
                             </div>
-                            <span className="text-xs text-muted-foreground shrink-0 hidden md:inline">
+                            <span className="text-xs text-foreground/65 shrink-0 hidden md:inline">
                                 {formatDuration(page.duration)}
                             </span>
                         </div>
@@ -411,7 +411,7 @@ function ImageNoteGrid({
         <div className="space-y-3">
             {!singleImageMode && (
                 <div className="flex items-center justify-between">
-                    <div className="text-sm text-muted-foreground">
+                    <div className="text-sm text-foreground/75">
                         <span className="inline-flex items-center gap-1">
                             {dict.result.imageNote}
                         </span>

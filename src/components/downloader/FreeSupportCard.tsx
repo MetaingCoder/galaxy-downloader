@@ -36,8 +36,8 @@ export function FreeSupportCard({ dict }: FreeSupportCardProps) {
                         <Shield className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
                         <div className="text-sm">
                             <p className="font-medium text-foreground">{dict.freeSupport.privacy.title}</p>
-                            <p className="text-muted-foreground">{dict.freeSupport.privacy.noUserRecords}</p>
-                            <p className="text-muted-foreground">{dict.freeSupport.privacy.localStorage}</p>
+                            <p className="text-foreground/75">{dict.freeSupport.privacy.noUserRecords}</p>
+                            <p className="text-foreground/75">{dict.freeSupport.privacy.localStorage}</p>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@ export function FreeSupportCard({ dict }: FreeSupportCardProps) {
                 <div className="pt-2 border-t">
                     <div className="flex items-start gap-2">
                         <Info className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-sm text-foreground/75">
                             <p>{dict.freeSupport.revenue.adsSupport}</p>
                             <p>{dict.freeSupport.revenue.serverCosts}</p>
                         </div>

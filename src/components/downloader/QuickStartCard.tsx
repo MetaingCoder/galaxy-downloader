@@ -23,7 +23,7 @@ export function QuickStartCard({ dict }: QuickStartCardProps) {
                         </div>
                         <div>
                             <p className="font-medium">{step.title}</p>
-                            <p className="text-sm text-muted-foreground">{step.description}</p>
+                            <p className="text-sm text-foreground/75">{step.description}</p>
                         </div>
                     </div>
                 ))}

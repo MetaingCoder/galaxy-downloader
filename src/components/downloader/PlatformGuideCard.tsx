@@ -21,7 +21,7 @@ export function PlatformGuideCard({ dict }: PlatformGuideCardProps) {
                     <span className="text-sm">✅</span>
                     <div className="flex-1">
                         <p className="text-sm font-medium">{dict.guide.platformSupport.bilibili.name}</p>
-                        <p className="text-xs text-muted-foreground">{dict.guide.platformSupport.bilibili.summary}</p>
+                        <p className="text-xs text-foreground/75">{dict.guide.platformSupport.bilibili.summary}</p>
                     </div>
                 </div>
 
@@ -30,7 +30,7 @@ export function PlatformGuideCard({ dict }: PlatformGuideCardProps) {
                     <span className="text-sm">✅</span>
                     <div className="flex-1">
                         <p className="text-sm font-medium">{dict.guide.platformSupport.bilibiliTv.name}</p>
-                        <p className="text-xs text-muted-foreground">{dict.guide.platformSupport.bilibiliTv.summary}</p>
+                        <p className="text-xs text-foreground/75">{dict.guide.platformSupport.bilibiliTv.summary}</p>
                     </div>
                 </div>
 
@@ -39,7 +39,7 @@ export function PlatformGuideCard({ dict }: PlatformGuideCardProps) {
                     <span className="text-sm">✅</span>
                     <div className="flex-1">
                         <p className="text-sm font-medium">{dict.guide.platformSupport.douyin.name}</p>
-                        <p className="text-xs text-muted-foreground">{dict.guide.platformSupport.douyin.summary}</p>
+                        <p className="text-xs text-foreground/75">{dict.guide.platformSupport.douyin.summary}</p>
                     </div>
                 </div>
 
@@ -48,7 +48,7 @@ export function PlatformGuideCard({ dict }: PlatformGuideCardProps) {
                     <span className="text-sm">✅</span>
                     <div className="flex-1">
                         <p className="text-sm font-medium">{dict.guide.platformSupport.xiaohongshu.name}</p>
-                        <p className="text-xs text-muted-foreground">{dict.guide.platformSupport.xiaohongshu.summary}</p>
+                        <p className="text-xs text-foreground/75">{dict.guide.platformSupport.xiaohongshu.summary}</p>
                     </div>
                 </div>
 
@@ -57,12 +57,12 @@ export function PlatformGuideCard({ dict }: PlatformGuideCardProps) {
                     <span className="text-sm">✅</span>
                     <div className="flex-1">
                         <p className="text-sm font-medium">{dict.guide.platformSupport.tiktok.name}</p>
-                        <p className="text-xs text-muted-foreground">{dict.guide.platformSupport.tiktok.summary}</p>
+                        <p className="text-xs text-foreground/75">{dict.guide.platformSupport.tiktok.summary}</p>
                     </div>
                 </div>
 
                 {/* 更多平台预告 */}
-                <div className="text-center text-xs text-muted-foreground pt-2 border-t">
+                <div className="text-center text-xs text-foreground/65 pt-2 border-t">
                     {dict.guide.platformSupport.comingSoon}
                 </div>
             </CardContent>
