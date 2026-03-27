@@ -9,7 +9,7 @@
 export const API_ENDPOINTS = {
     // 统一接口
     unified: {
-        parse: '/v1/parse',
-        download: '/v1/download',
+        parse: '/api/parse',
+        download: '/api/download',
     },
 } as const;
