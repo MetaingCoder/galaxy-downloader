@@ -38,6 +38,16 @@ function replaceTemplate(template: string, token: string, value: string): string
     return template.replace(token, value);
 }
 
+function triggerBlobDownload(blob: Blob, filename: string) {
+    const objectUrl = URL.createObjectURL(blob);
+    downloadFile(objectUrl, filename);
+
+    // Revoke after the click has been dispatched so browsers can resolve the blob URL.
+    window.setTimeout(() => {
+        URL.revokeObjectURL(objectUrl);
+    }, 1000);
+}
+
 export function ResultCard({ result, onClose }: ResultCardProps) {
     const dict = useDictionary()
     if (!result) return null;
@@ -426,7 +436,7 @@ function ImageNoteGrid({
             const zipBlob = await zip.generateAsync({ type: 'blob' });
 
             // 触发下载
-            downloadFile(URL.createObjectURL(zipBlob), `${sanitizeFilename(title)}.zip`);
+            triggerBlobDownload(zipBlob, `${sanitizeFilename(title)}.zip`);
         } catch (error) {
             console.error('Failed to package images:', error);
             toast.error(dict.errors.packageFailed);

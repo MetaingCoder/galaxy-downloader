@@ -25,12 +25,6 @@ pnpm dev
 
 在浏览器中打开 [http://localhost:3000](http://localhost:3000) 即可看到应用界面。
 
-如需回退到原始 Next.js CLI，可使用：
-
-```bash
-pnpm dev:next
-```
-
 ## 使用方法
 
 1. 复制媒体链接（支持 Bilibili、抖音、Instagram、小红书、TikTok、X 等平台）
@@ -96,30 +90,15 @@ pnpm dev:next
    pnpm start
    ```
 
-兼容回退脚本：
-
-- `pnpm dev:next`
-- `pnpm build:next`
-- `pnpm start:next`
-
-## React Compiler 定向验证
-
-已启用 `next.config.ts` 中的 `reactCompiler`。项目提供了一个“热点组件定向校验”脚本：
-
-```bash
-npm run react-compiler:check
-```
-
-脚本会基于 `.next` 构建产物检查关键客户端模块是否出现 React Compiler 标记（如 `react.memo_cache_sentinel` / `useMemoCache`），并生成报告：
-
-- `.next/react-compiler-report.json`
-
 ## SEO 配置
 
-部署时建议配置以下环境变量，避免预发环境被收录并确保 canonical 正确：
+部署时建议配置以下环境变量，确保上游解析服务、canonical 和索引策略都正确：
 
+- `API_BASE_URL`: 上游解析服务地址，例如 `https://api.example.com`。生产和预发部署必须配置；本地开发未配置时默认使用 `http://localhost:8080`
 - `NEXT_PUBLIC_SITE_URL`: 当前环境站点地址（例如 `https://downloader.bhwa233.com`）
 - `SEO_INDEXABLE`: 是否允许索引，`true` / `false`
+
+如果生产或预发环境未配置 `API_BASE_URL`，应用的代理接口会返回 `503 SERVICE_UNAVAILABLE` JSON 错误，而不是未处理的 500。
 
 默认策略：
 
@@ -145,8 +124,6 @@ npm run react-compiler:check
 ```bash
 pnpm build
 ```
-
-如需继续使用原始 Next.js 构建链路，可改用 `pnpm build:next`。
 
 Cloudflare Workers 部署请使用：
 
