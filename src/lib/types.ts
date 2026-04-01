@@ -109,6 +109,8 @@ export type Platform =
     | 'bilibili_tv'
     | 'douyin'
     | 'wechat'
+    | 'nico'
+    | 'niconico'
     | 'xiaohongshu'
     | 'tiktok'
     | 'instagram'

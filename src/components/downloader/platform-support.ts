@@ -31,6 +31,7 @@ export function getPlatformSupportItems(dict: Pick<Dictionary, 'guide'>): Platfo
         { key: 'bilibiliTv', name: support.bilibiliTv.name, features: resolveFeatures(support.bilibiliTv) },
         { key: 'douyin', name: support.douyin.name, features: resolveFeatures(support.douyin) },
         { key: 'wechat', name: support.wechat.name, features: resolveFeatures(support.wechat) },
+        { key: 'niconico', name: support.niconico.name, features: resolveFeatures(support.niconico) },
         { key: 'xiaohongshu', name: support.xiaohongshu.name, features: resolveFeatures(support.xiaohongshu) },
         { key: 'tiktok', name: support.tiktok.name, features: resolveFeatures(support.tiktok) },
         { key: 'instagram', name: support.instagram.name, features: resolveFeatures(support.instagram) },

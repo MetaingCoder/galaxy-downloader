@@ -7,7 +7,7 @@
     },
     "unified": {
         "pageTitle": "ソーシャルメディアダウンローダー",
-        "pageDescription": "リンクまたは共有トークンを貼り付けて解析すると、対応プラットフォームを自動判別してダウンロードできます。Bilibili の動画・音声、Douyin の動画、WeChat の記事内動画、Instagram の Reels・投稿・画像投稿、Xiaohongshu の動画・画像ノート、TikTok の動画、X の動画に対応しています。",
+        "pageDescription": "リンクまたは共有トークンを貼り付けて解析すると、対応プラットフォームを自動判別してダウンロードできます。Bilibili の動画・音声、Douyin の動画、WeChat の記事内動画、Niconico の動画・音声、Instagram の Reels・投稿・画像投稿、Xiaohongshu の動画・画像ノート、TikTok の動画、X の動画に対応しています。",
         "placeholder": "リンクまたは共有トークンをここに貼り付けてください...",
         "newBadge": "新機能: Douyin 画像ノート対応"
     },
@@ -72,6 +72,7 @@
             "bilibiliTv": "Bilibili TV",
             "douyin": "Douyin",
             "wechat": "WeChat",
+            "niconico": "Niconico",
             "xiaohongshu": "Xiaohongshu",
             "tiktok": "TikTok",
             "unknown": "不明",
@@ -89,11 +90,11 @@
         "installAction": "インストール"
     },
     "metadata": {
-        "title": "ユニバーサルメディアダウンローダー - Bilibili・Douyin・WeChat・Instagram・Xiaohongshu・TikTok・X に対応",
-        "description": "無料のオンラインメディアダウンローダー。Bilibili の動画・音声、Douyin の動画、WeChat の記事内動画、Instagram の Reels・投稿・画像投稿、Xiaohongshu の動画・画像ノート、TikTok の動画、X の動画をワンクリックでダウンロードできます。",
-        "keywords": "オンラインメディアダウンローダー,Bilibili動画ダウンロード,Bilibili音声ダウンロード,Douyin動画ダウンロード,WeChat動画ダウンロード,WeChat記事動画ダウンロード,Instagram Reelsダウンロード,Instagram投稿ダウンロード,Instagram画像投稿ダウンロード,Xiaohongshu動画ダウンロード,Xiaohongshu画像ノートダウンロード,TikTok動画ダウンロード,X動画ダウンロード",
+        "title": "ユニバーサルメディアダウンローダー - Bilibili・Douyin・WeChat・Niconico・Instagram・Xiaohongshu・TikTok・X に対応",
+        "description": "無料のオンラインメディアダウンローダー。Bilibili の動画・音声、Douyin の動画、WeChat の記事内動画、Niconico の動画・音声、Instagram の Reels・投稿・画像投稿、Xiaohongshu の動画・画像ノート、TikTok の動画、X の動画をワンクリックでダウンロードできます。",
+        "keywords": "オンラインメディアダウンローダー,Bilibili動画ダウンロード,Bilibili音声ダウンロード,Douyin動画ダウンロード,WeChat動画ダウンロード,WeChat記事動画ダウンロード,Niconico動画ダウンロード,Niconico音声ダウンロード,Instagram Reelsダウンロード,Instagram投稿ダウンロード,Instagram画像投稿ダウンロード,Xiaohongshu動画ダウンロード,Xiaohongshu画像ノートダウンロード,TikTok動画ダウンロード,X動画ダウンロード",
         "ogTitle": "ユニバーサルメディアダウンローダー - 無料オンラインツール",
-        "ogDescription": "Bilibili、Douyin、WeChat、Instagram、Xiaohongshu、TikTok、X に対応したメディアダウンローダー。プラットフォームを自動判別して、動画・音声・投稿・画像投稿・記事内動画をワンクリックでダウンロードできます。",
+        "ogDescription": "Bilibili、Douyin、WeChat、Niconico、Instagram、Xiaohongshu、TikTok、X に対応したメディアダウンローダー。プラットフォームを自動判別して、動画・音声・投稿・画像投稿・記事内動画をワンクリックでダウンロードできます。",
         "siteName": "ユニバーサルメディアダウンローダー"
     },
     "common": {
@@ -166,7 +167,7 @@
             "steps": [
                 {
                     "title": "メディアリンクをコピー",
-                    "description": "Bilibili、Douyin、WeChat、Instagram、Xiaohongshu、TikTok、または X から動画・投稿・画像投稿・記事リンクをコピーします"
+                    "description": "Bilibili、Douyin、WeChat、Niconico、Instagram、Xiaohongshu、TikTok、または X から動画・投稿・画像投稿・記事リンクをコピーします"
                 },
                 {
                     "title": "貼り付けて解析",
@@ -199,6 +200,11 @@
                 "name": "WeChat",
                 "summary": "記事内動画",
                 "features": ["記事内動画"]
+            },
+            "niconico": {
+                "name": "Niconico",
+                "summary": "動画 / 音声",
+                "features": ["動画", "音声"]
             },
             "xiaohongshu": {
                 "name": "Xiaohongshu",
@@ -317,11 +323,13 @@
                 "支援多種媒體格式",
                 "瀏覽器內處理"
             ],
-            "ja": [
-                "Bilibili動画からMP3音声を抽出",
-                "Douyin動画をダウンロード",
-                "WeChat記事内動画をダウンロード",
-                "InstagramのReelsと投稿をダウンロード",
+                "ja": [
+                    "Bilibili動画からMP3音声を抽出",
+                    "Douyin動画をダウンロード",
+                    "WeChat記事内動画をダウンロード",
+                    "Niconico動画をダウンロード",
+                    "Niconico音声をダウンロード",
+                    "InstagramのReelsと投稿をダウンロード",
                 "Instagramの画像投稿をダウンロード",
                 "Instagram動画から音声を抽出",
                 "Xiaohongshuの画像ノートをダウンロード",
@@ -343,7 +351,7 @@
                 "en": "How to download content from Bilibili, Douyin, WeChat, Instagram, Xiaohongshu, TikTok, and X",
                 "zh": "如何下载哔哩哔哩、抖音、微信公众号、Instagram、小红书、TikTok 和 X 内容",
                 "zh-tw": "如何下載嗶哩嗶哩、抖音、微信公眾號、Instagram、小紅書、TikTok 與 X 內容",
-                "ja": "Bilibili・Douyin・WeChat・Instagram・Xiaohongshu・TikTok・X のコンテンツをダウンロードする方法"
+                "ja": "Bilibili・Douyin・WeChat・Niconico・Instagram・Xiaohongshu・TikTok・X のコンテンツをダウンロードする方法"
             },
             "steps": {
                 "en": [
@@ -403,7 +411,7 @@
                 "ja": [
                     {
                         "name": "リンクをコピー",
-                        "text": "Bilibili、Douyin、WeChat、Instagram、Xiaohongshu、TikTok、または X の動画・投稿・画像投稿・記事リンクをコピーします"
+                        "text": "Bilibili、Douyin、WeChat、Niconico、Instagram、Xiaohongshu、TikTok、または X の動画・投稿・画像投稿・記事リンクをコピーします"
                     },
                     {
                         "name": "リンクを貼り付け",
@@ -411,7 +419,7 @@
                     },
                     {
                         "name": "自動判別",
-                        "text": "ツールがプラットフォームを自動で判別します（Bilibili / Douyin / WeChat / Instagram / Xiaohongshu / TikTok / X）"
+                        "text": "ツールがプラットフォームを自動で判別します（Bilibili / Douyin / WeChat / Niconico / Instagram / Xiaohongshu / TikTok / X）"
                     },
                     {
                         "name": "ダウンロード",

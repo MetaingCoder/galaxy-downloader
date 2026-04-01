@@ -14,6 +14,7 @@ const ALLOWED_IMAGE_HOSTS = [
     'instagram.com',
     'cdninstagram.com',
     'fbcdn.net',
+    'nimg.jp',
     'twimg.com',
     'x.com',
     'twitter.com',
@@ -50,6 +51,9 @@ function getReferer(hostname: string): string | undefined {
         normalized.endsWith('fbcdn.net')
     ) {
         return 'https://www.instagram.com/';
+    }
+    if (normalized.endsWith('nimg.jp')) {
+        return 'https://www.nicovideo.jp/';
     }
     if (
         normalized.endsWith('twimg.com') ||

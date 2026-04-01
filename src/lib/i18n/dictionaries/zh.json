@@ -7,7 +7,7 @@
     },
     "unified": {
         "pageTitle": "社交媒体下载器",
-        "pageDescription": "粘贴链接或口令，点击解析后自动识别平台并选择下载。支持哔哩哔哩音视频、抖音视频、微信公众号文章视频、Instagram Reels/帖子/图文、小红书视频/图文、TikTok 视频，以及 X 视频。",
+        "pageDescription": "粘贴链接或口令，点击解析后自动识别平台并选择下载。支持哔哩哔哩音视频、抖音视频、微信公众号文章视频、Niconico 视频/音频、Instagram Reels/帖子/图文、小红书视频/图文、TikTok 视频，以及 X 视频。",
         "placeholder": "请在此处粘贴链接或口令...",
         "newBadge": "新增抖音图文支持"
     },
@@ -72,6 +72,7 @@
             "bilibiliTv": "Bilibili TV",
             "douyin": "抖音",
             "wechat": "微信公众号",
+            "niconico": "Niconico",
             "xiaohongshu": "小红书",
             "tiktok": "TikTok",
             "unknown": "未知",
@@ -89,11 +90,11 @@
         "installAction": "立即安装"
     },
     "metadata": {
-        "title": "通用媒体下载器 - 支持哔哩哔哩、抖音、微信公众号、Instagram、小红书、TikTok、X 内容下载",
-        "description": "免费在线通用媒体下载工具。一键下载哔哩哔哩音视频、抖音视频、微信公众号文章视频、Instagram Reels/帖子/图文、小红书视频/图文、TikTok 视频，以及 X 视频，自动识别平台。",
-        "keywords": "在线媒体下载器,哔哩哔哩视频下载,哔哩哔哩音频下载,抖音视频下载,微信公众号视频下载,微信文章视频下载,Instagram Reels下载,Instagram帖子下载,Instagram图文帖子下载,小红书视频下载,小红书图文下载,TikTok视频下载,X视频下载",
+        "title": "通用媒体下载器 - 支持哔哩哔哩、抖音、微信公众号、Niconico、Instagram、小红书、TikTok、X 内容下载",
+        "description": "免费在线通用媒体下载工具。一键下载哔哩哔哩音视频、抖音视频、微信公众号文章视频、Niconico 视频/音频、Instagram Reels/帖子/图文、小红书视频/图文、TikTok 视频，以及 X 视频，自动识别平台。",
+        "keywords": "在线媒体下载器,哔哩哔哩视频下载,哔哩哔哩音频下载,抖音视频下载,微信公众号视频下载,微信文章视频下载,Niconico视频下载,Niconico音频下载,Instagram Reels下载,Instagram帖子下载,Instagram图文帖子下载,小红书视频下载,小红书图文下载,TikTok视频下载,X视频下载",
         "ogTitle": "通用媒体下载器 - 免费在线工具",
-        "ogDescription": "专业的通用媒体下载工具。自动识别链接平台，一键下载哔哩哔哩音视频、抖音视频、微信公众号文章视频、Instagram Reels/帖子/图文、小红书视频/图文、TikTok 视频，以及 X 视频。",
+        "ogDescription": "专业的通用媒体下载工具。自动识别链接平台，一键下载哔哩哔哩音视频、抖音视频、微信公众号文章视频、Niconico 视频/音频、Instagram Reels/帖子/图文、小红书视频/图文、TikTok 视频，以及 X 视频。",
         "siteName": "通用媒体下载器"
     },
     "common": {
@@ -166,7 +167,7 @@
             "steps": [
                 {
                     "title": "复制媒体链接",
-                    "description": "从哔哩哔哩、抖音、微信公众号文章、Instagram、小红书、TikTok 或 X 复制视频、帖子或图文链接"
+                    "description": "从哔哩哔哩、抖音、微信公众号文章、Niconico、Instagram、小红书、TikTok 或 X 复制视频、帖子或图文链接"
                 },
                 {
                     "title": "粘贴并解析",
@@ -199,6 +200,11 @@
                 "name": "微信公众号",
                 "summary": "文章视频",
                 "features": ["文章视频"]
+            },
+            "niconico": {
+                "name": "Niconico",
+                "summary": "视频 / 音频",
+                "features": ["视频", "音频"]
             },
             "xiaohongshu": {
                 "name": "小红书",
@@ -280,11 +286,13 @@
                 "Support multiple media formats",
                 "Browser-based processing"
             ],
-            "zh": [
-                "提取哔哩哔哩视频MP3音频",
-                "下载抖音无水印视频",
-                "下载微信公众号文章视频",
-                "下载Instagram Reels和帖子",
+                "zh": [
+                    "提取哔哩哔哩视频MP3音频",
+                    "下载抖音无水印视频",
+                    "下载微信公众号文章视频",
+                    "下载Niconico视频",
+                    "下载Niconico音频",
+                    "下载Instagram Reels和帖子",
                 "下载Instagram图文帖子",
                 "提取Instagram视频音频",
                 "下载小红书图文笔记",
@@ -343,16 +351,16 @@
         },
         "howTo": {
             "title": {
-                "en": "How to download content from Bilibili, Douyin, WeChat, Instagram, Xiaohongshu, TikTok, and X",
-                "zh": "如何下载哔哩哔哩、抖音、微信公众号、Instagram、小红书、TikTok 和 X 内容",
-                "zh-tw": "如何下載嗶哩嗶哩、抖音、微信公眾號、Instagram、小紅書、TikTok 與 X 內容",
-                "ja": "Bilibili・Douyin・WeChat・Instagram・Xiaohongshu・TikTok・X のコンテンツをダウンロードする方法"
+                "en": "How to download content from Bilibili, Douyin, WeChat, Niconico, Instagram, Xiaohongshu, TikTok, and X",
+                "zh": "如何下载哔哩哔哩、抖音、微信公众号、Niconico、Instagram、小红书、TikTok 和 X 内容",
+                "zh-tw": "如何下載嗶哩嗶哩、抖音、微信公眾號、Niconico、Instagram、小紅書、TikTok 與 X 內容",
+                "ja": "Bilibili・Douyin・WeChat・Niconico・Instagram・Xiaohongshu・TikTok・X のコンテンツをダウンロードする方法"
             },
             "steps": {
                 "en": [
                     {
                         "name": "Copy link",
-                        "text": "Copy the video, post, image-post, or WeChat article link from Bilibili, Douyin, WeChat, Instagram, Xiaohongshu, TikTok, or X"
+                        "text": "Copy the video, post, image-post, or article link from Bilibili, Douyin, WeChat, Niconico, Instagram, Xiaohongshu, TikTok, or X"
                     },
                     {
                         "name": "Paste link",
@@ -370,7 +378,7 @@
                 "zh": [
                     {
                         "name": "复制链接",
-                        "text": "从浏览器复制哔哩哔哩、抖音、微信公众号文章、Instagram、小红书、TikTok 或 X 的视频、帖子或图文链接"
+                        "text": "从浏览器复制哔哩哔哩、抖音、微信公众号文章、Niconico、Instagram、小红书、TikTok 或 X 的视频、帖子或图文链接"
                     },
                     {
                         "name": "粘贴链接",
@@ -378,7 +386,7 @@
                     },
                     {
                         "name": "自动识别",
-                        "text": "工具会自动识别平台（哔哩哔哩/抖音/微信公众号/Instagram/小红书/TikTok/X）"
+                        "text": "工具会自动识别平台（哔哩哔哩/抖音/微信公众号/Niconico/Instagram/小红书/TikTok/X）"
                     },
                     {
                         "name": "下载",

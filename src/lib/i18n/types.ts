@@ -98,6 +98,7 @@ export interface Dictionary {
             bilibiliTv: string;
             douyin: string;
             wechat: string;
+            niconico: string;
             xiaohongshu: string;
             tiktok: string;
             instagram: string;
@@ -181,6 +182,12 @@ export interface Dictionary {
                 };
             };
             wechat: {
+                name: string;
+                summary: string;
+                features?: string[];
+                limitations?: string[];
+            };
+            niconico: {
                 name: string;
                 summary: string;
                 features?: string[];

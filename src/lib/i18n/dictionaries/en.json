@@ -7,7 +7,7 @@
     },
     "unified": {
         "pageTitle": "Social Media Downloader",
-        "pageDescription": "Paste a link or share token, click Parse, and choose a download option after auto-detection. Supports Bilibili video and audio, Douyin videos, WeChat article videos, Instagram reels, posts, and image posts, Xiaohongshu videos and image notes, TikTok videos, and X videos.",
+        "pageDescription": "Paste a link or share token, click Parse, and choose a download option after auto-detection. Supports Bilibili video and audio, Douyin videos, WeChat article videos, Niconico video and audio, Instagram reels, posts, and image posts, Xiaohongshu videos and image notes, TikTok videos, and X videos.",
         "placeholder": "Paste link or share token here...",
         "newBadge": "New: Douyin image notes"
     },
@@ -72,6 +72,7 @@
             "bilibiliTv": "Bilibili TV",
             "douyin": "Douyin",
             "wechat": "WeChat",
+            "niconico": "Niconico",
             "xiaohongshu": "Xiaohongshu",
             "tiktok": "TikTok",
             "unknown": "Unknown",
@@ -89,11 +90,11 @@
         "installAction": "Install"
     },
     "metadata": {
-        "title": "Universal Media Downloader - Download Media from Bilibili, Douyin, WeChat, Instagram, Xiaohongshu, TikTok, and X",
-        "description": "Free online universal media downloader. Download Bilibili video and audio, Douyin videos, WeChat article videos, Instagram reels, posts, and image posts, Xiaohongshu videos and image notes, TikTok videos, and X videos in one click.",
-        "keywords": "online media downloader,Bilibili video downloader,Bilibili audio downloader,Douyin video downloader,WeChat video downloader,WeChat article video downloader,Instagram reels downloader,Instagram post downloader,Instagram image post downloader,Xiaohongshu video downloader,Xiaohongshu image note downloader,TikTok video downloader,X video downloader",
+        "title": "Universal Media Downloader - Download Media from Bilibili, Douyin, WeChat, Niconico, Instagram, Xiaohongshu, TikTok, and X",
+        "description": "Free online universal media downloader. Download Bilibili video and audio, Douyin videos, WeChat article videos, Niconico video and audio, Instagram reels, posts, and image posts, Xiaohongshu videos and image notes, TikTok videos, and X videos in one click.",
+        "keywords": "online media downloader,Bilibili video downloader,Bilibili audio downloader,Douyin video downloader,WeChat video downloader,WeChat article video downloader,Niconico video downloader,Niconico audio downloader,Instagram reels downloader,Instagram post downloader,Instagram image post downloader,Xiaohongshu video downloader,Xiaohongshu image note downloader,TikTok video downloader,X video downloader",
         "ogTitle": "Universal Media Downloader - Free Online Tool",
-        "ogDescription": "Professional universal media downloader. Auto-detect links and download Bilibili video/audio, Douyin videos, WeChat article videos, Instagram reels, posts, and image posts, Xiaohongshu videos and image notes, TikTok videos, and X videos in one click.",
+        "ogDescription": "Professional universal media downloader. Auto-detect links and download Bilibili video/audio, Douyin videos, WeChat article videos, Niconico video/audio, Instagram reels, posts, and image posts, Xiaohongshu videos and image notes, TikTok videos, and X videos in one click.",
         "siteName": "Universal Media Downloader"
     },
     "common": {
@@ -166,7 +167,7 @@
             "steps": [
                 {
                     "title": "Copy Media Link",
-                    "description": "Copy a media link from Bilibili, Douyin, WeChat, Instagram, Xiaohongshu, TikTok, or X"
+                    "description": "Copy a media link from Bilibili, Douyin, WeChat, Niconico, Instagram, Xiaohongshu, TikTok, or X"
                 },
                 {
                     "title": "Paste and Parse",
@@ -199,6 +200,11 @@
                 "name": "WeChat",
                 "summary": "Article Videos",
                 "features": ["Article Videos"]
+            },
+            "niconico": {
+                "name": "Niconico",
+                "summary": "Video / Audio",
+                "features": ["Video", "Audio"]
             },
             "xiaohongshu": {
                 "name": "Xiaohongshu",
@@ -260,11 +266,13 @@
     },
     "seo": {
         "features": {
-            "en": [
-                "Extract MP3 audio from Bilibili videos",
-                "Download Douyin videos without watermark",
-                "Download WeChat article videos",
-                "Download Instagram reels and posts",
+                "en": [
+                    "Extract MP3 audio from Bilibili videos",
+                    "Download Douyin videos without watermark",
+                    "Download WeChat article videos",
+                    "Download Niconico videos",
+                    "Download Niconico audio",
+                    "Download Instagram reels and posts",
                 "Download Instagram image posts",
                 "Extract audio from Instagram videos",
                 "Download Xiaohongshu image notes",
@@ -340,16 +348,16 @@
         },
         "howTo": {
             "title": {
-                "en": "How to download content from Bilibili, Douyin, WeChat, Instagram, Xiaohongshu, TikTok, and X",
+                "en": "How to download content from Bilibili, Douyin, WeChat, Niconico, Instagram, Xiaohongshu, TikTok, and X",
                 "zh": "如何下载哔哩哔哩、抖音、微信公众号、Instagram、小红书、TikTok 和 X 内容",
                 "zh-tw": "如何下載嗶哩嗶哩、抖音、微信公眾號、Instagram、小紅書、TikTok 與 X 內容",
-                "ja": "Bilibili・Douyin・WeChat・Instagram・Xiaohongshu・TikTok・X のコンテンツをダウンロードする方法"
+                "ja": "Bilibili・Douyin・WeChat・Niconico・Instagram・Xiaohongshu・TikTok・X のコンテンツをダウンロードする方法"
             },
             "steps": {
                 "en": [
                     {
                         "name": "Copy link",
-                        "text": "Copy the video, post, image-post, or WeChat article link from Bilibili, Douyin, WeChat, Instagram, Xiaohongshu, TikTok, or X"
+                        "text": "Copy the video, post, image-post, or article link from Bilibili, Douyin, WeChat, Niconico, Instagram, Xiaohongshu, TikTok, or X"
                     },
                     {
                         "name": "Paste link",
@@ -357,7 +365,7 @@
                     },
                     {
                         "name": "Auto-detect",
-                        "text": "The tool will automatically detect the platform (Bilibili/Douyin/WeChat/Instagram/Xiaohongshu/TikTok/X)"
+                        "text": "The tool will automatically detect the platform (Bilibili/Douyin/WeChat/Niconico/Instagram/Xiaohongshu/TikTok/X)"
                     },
                     {
                         "name": "Download",
