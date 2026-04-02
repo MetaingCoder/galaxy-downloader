@@ -1,15 +1,77 @@
+import type { VideoAudioMode } from '@/lib/types'
+
 export interface SingleImageLoadState {
-    loading: boolean;
-    error: boolean;
+    loading: boolean
+    error: boolean
 }
 
 export function shouldHideSingleImagePreview(
     singleImageMode: boolean,
     state?: SingleImageLoadState | null
 ): boolean {
-    return singleImageMode && !!state && !state.loading && state.error;
+    return singleImageMode && !!state && !state.loading && state.error
+}
+
+export type ResultVideoAction = 'direct-download' | 'merge-then-download' | 'hide'
+export type ResultAudioAction = 'direct-download' | 'extract-audio' | 'hide'
+
+interface ResultMediaActionInput {
+    videoAudioMode?: VideoAudioMode
+    videoDownloadUrl?: string | null
+    audioDownloadUrl?: string | null
+}
+
+export interface ResultMediaActions {
+    videoAction: ResultVideoAction
+    audioAction: ResultAudioAction
+}
+
+function hasSourceUrl(url: string | null | undefined): boolean {
+    return typeof url === 'string' && url.length > 0
+}
+
+export function getResultMediaActions({
+    videoAudioMode,
+    videoDownloadUrl,
+    audioDownloadUrl,
+}: ResultMediaActionInput): ResultMediaActions {
+    const hasVideo = hasSourceUrl(videoDownloadUrl)
+    const hasAudio = hasSourceUrl(audioDownloadUrl)
+
+    if (videoAudioMode === 'separate') {
+        return {
+            videoAction: hasVideo && hasAudio ? 'merge-then-download' : 'hide',
+            audioAction: hasAudio ? 'direct-download' : 'hide',
+        }
+    }
+
+    if (videoAudioMode === 'muxed') {
+        return {
+            videoAction: hasVideo ? 'direct-download' : 'hide',
+            audioAction: hasVideo ? 'extract-audio' : 'hide',
+        }
+    }
+
+    if (videoAudioMode === 'not_applicable') {
+        return {
+            videoAction: hasVideo ? 'direct-download' : 'hide',
+            audioAction: 'hide',
+        }
+    }
+
+    if (hasAudio) {
+        return {
+            videoAction: hasVideo ? 'direct-download' : 'hide',
+            audioAction: 'direct-download',
+        }
+    }
+
+    return {
+        videoAction: hasVideo ? 'direct-download' : 'hide',
+        audioAction: hasVideo ? 'extract-audio' : 'hide',
+    }
 }
 
 export function shouldShowVideoDownloadButton(videoDownloadUrl: string | null | undefined): boolean {
-    return typeof videoDownloadUrl === 'string' && videoDownloadUrl.length > 0
+    return hasSourceUrl(videoDownloadUrl)
 }

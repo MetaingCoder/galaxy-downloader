@@ -22,6 +22,7 @@ export const API_ERROR_CODES = [
 
 export type ApiErrorCode = (typeof API_ERROR_CODES)[number]
 export type ApiErrorDetails = Record<string, unknown>
+export type VideoAudioMode = 'muxed' | 'separate' | 'not_applicable'
 
 /**
  * 多P视频的单个分P信息
@@ -68,6 +69,7 @@ export interface UnifiedParseResult {
         downloadVideoUrl: string | null;
         originDownloadAudioUrl?: string | null;
         originDownloadVideoUrl: string | null;
+        videoAudioMode?: VideoAudioMode;
         url: string;
         // 时长（秒）
         duration?: number;

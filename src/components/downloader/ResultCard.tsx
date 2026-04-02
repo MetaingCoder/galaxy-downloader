@@ -9,7 +9,11 @@ import { downloadFile, formatDuration, sanitizeFilename } from "../../lib/utils"
 import { useState, useEffect, useRef } from 'react';
 import { toast } from '@/lib/deferred-toast';
 import { normalizePlatform } from "@/lib/platforms";
-import { shouldHideSingleImagePreview, shouldShowVideoDownloadButton } from "./result-card-visibility";
+import {
+    getResultMediaActions,
+    shouldHideSingleImagePreview,
+    shouldShowVideoDownloadButton,
+} from "./result-card-visibility";
 
 interface ResultCardProps {
     result: UnifiedParseResult['data'] | null | undefined
@@ -123,11 +127,13 @@ function SinglePartButtons({
     const [audioLoading, setAudioLoading] = useState(false);
     const videoDownloadUrl = result.downloadVideoUrl || result.originDownloadVideoUrl;
     const audioDownloadUrl = result.downloadAudioUrl || result.originDownloadAudioUrl || null;
-    const showVideoDownload = shouldShowVideoDownloadButton(videoDownloadUrl);
-    const showExtractAudio =
-        !audioDownloadUrl
-        && typeof videoDownloadUrl === 'string'
-        && videoDownloadUrl.length > 0;
+    const { videoAction, audioAction } = getResultMediaActions({
+        videoAudioMode: result.videoAudioMode,
+        videoDownloadUrl,
+        audioDownloadUrl,
+    });
+    const showVideoDownload = videoAction !== 'hide';
+    const showAudioDownload = audioAction !== 'hide';
     const showOriginVideoLink =
         typeof result.originDownloadVideoUrl === 'string'
         && result.originDownloadVideoUrl.length > 0
@@ -143,6 +149,17 @@ function SinglePartButtons({
         setTimeout(() => setLoading(false), 1500);
     };
 
+    const openResultTask = (action: AudioExtractTask['action']) => {
+        onOpenExtractAudio({
+            action,
+            title: result.title || result.desc || undefined,
+            sourceUrl: result.url || null,
+            audioUrl: audioDownloadUrl,
+            videoUrl: videoDownloadUrl || null,
+            videoAudioMode: result.videoAudioMode,
+        });
+    };
+
     return (
         <>
             <div className="grid grid-cols-2 gap-2">
@@ -151,35 +168,41 @@ function SinglePartButtons({
                         variant="outline"
                         className="flex items-center justify-center gap-2"
                         disabled={videoLoading}
-                        onClick={() => handleDownload(videoDownloadUrl!, setVideoLoading)}
+                        onClick={() => {
+                            if (videoAction === 'merge-then-download') {
+                                openResultTask('merge-video');
+                                return;
+                            }
+
+                            handleDownload(videoDownloadUrl!, setVideoLoading);
+                        }}
                     >
                         {videoLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-                        {dict.result.downloadVideo}
+                        {videoAction === 'merge-then-download'
+                            ? dict.result.mergeDownloadVideo
+                            : dict.result.downloadVideo}
                     </Button>
                 )}
-                {audioDownloadUrl && (
+                {showAudioDownload && (
                     <Button
                         variant="outline"
                         className="flex items-center justify-center gap-2"
                         disabled={audioLoading}
-                        onClick={() => handleDownload(audioDownloadUrl, setAudioLoading)}
+                        onClick={() => {
+                            if (audioAction === 'extract-audio') {
+                                openResultTask('extract-audio');
+                                return;
+                            }
+
+                            handleDownload(audioDownloadUrl!, setAudioLoading);
+                        }}
                     >
-                        {audioLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-                        {dict.result.downloadAudio}
-                    </Button>
-                )}
-                {showExtractAudio && (
-                    <Button
-                        variant="outline"
-                        className="flex items-center justify-center gap-2"
-                        onClick={() => onOpenExtractAudio({
-                            title: result.title || result.desc || undefined,
-                            sourceUrl: result.url || null,
-                            audioUrl: audioDownloadUrl,
-                            videoUrl: videoDownloadUrl || null,
-                        })}
-                    >
-                        {dict.extractAudio.button}
+                        {audioLoading && audioAction === 'direct-download' && (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                        )}
+                        {audioAction === 'direct-download'
+                            ? dict.result.downloadAudio
+                            : dict.extractAudio.button}
                     </Button>
                 )}
             </div>

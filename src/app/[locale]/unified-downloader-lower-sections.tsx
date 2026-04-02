@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode, RefObject } from 'react';
+import type { AudioExtractTask } from '@/components/audio-tool/types';
 import type { UnifiedParseResult } from '@/lib/types';
 import { ResultCard } from '@/components/downloader/ResultCard';
 import { DownloadHistory, type DownloadRecord } from './download-history';
@@ -8,12 +9,7 @@ import { DownloadHistory, type DownloadRecord } from './download-history';
 interface UnifiedDownloaderLowerSectionsProps {
     parseResult: UnifiedParseResult['data'] | null;
     onCloseParseResult: () => void;
-    onOpenExtractAudio: (task: {
-        title?: string;
-        sourceUrl?: string | null;
-        audioUrl?: string | null;
-        videoUrl?: string | null;
-    }) => void;
+    onOpenExtractAudio: (task: AudioExtractTask) => void;
     mobileAd?: ReactNode;
     mobileGuides?: ReactNode;
     downloadHistory: DownloadRecord[];

@@ -3,6 +3,7 @@ import type {ApiErrorCode} from '@/lib/types'
 export interface ResultDict {
     title: string;
     downloadVideo: string;
+    mergeDownloadVideo: string;
     downloadAudio: string;
     originDownloadVideo: string;
     originDownloadAudio: string;
@@ -171,10 +172,12 @@ export interface Dictionary {
         statusIdle: string;
         statusMergeIdle: string;
         statusParsing: string;
+        statusPreparingMerge: string;
         statusDirectDownloading: string;
         statusFallbackExtracting: string;
         statusCompleted: string;
         noAudioSource: string;
+        noMergeSource: string;
         urlTab: string;
         fileTab: string;
         mergeTab: string;
