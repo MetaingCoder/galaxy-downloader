@@ -88,6 +88,13 @@ export function UnifiedDownloader({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [audioToolOpen, setAudioToolOpen] = useState(false);
+    const [audioToolEntry, setAudioToolEntry] = useState<'toolbar' | 'result'>('toolbar');
+    const [audioToolTask, setAudioToolTask] = useState<{
+        title?: string;
+        sourceUrl?: string | null;
+        audioUrl?: string | null;
+        videoUrl?: string | null;
+    } | null>(null);
     const [parseResult, setParseResult] = useState<UnifiedParseResult['data'] | null>(null);
     const historyRef = useRef<HTMLDivElement>(null);
 
@@ -102,6 +109,23 @@ export function UnifiedDownloader({
 
     const clearDownloadHistory = () => {
         setDownloadHistory([]);
+    };
+
+    const openToolbarAudioTool = () => {
+        setAudioToolEntry('toolbar');
+        setAudioToolTask(null);
+        setAudioToolOpen(true);
+    };
+
+    const openResultAudioExtract = (task: {
+        title?: string;
+        sourceUrl?: string | null;
+        audioUrl?: string | null;
+        videoUrl?: string | null;
+    }) => {
+        setAudioToolEntry('result');
+        setAudioToolTask(task);
+        setAudioToolOpen(true);
     };
 
     // 统一解析处理：只解析不自动下载
@@ -274,7 +298,7 @@ export function UnifiedDownloader({
                         <LanguageSwitcher compact />
                         <MobileNavMenu
                             onOpenAudioTool={() => {
-                                setAudioToolOpen(true);
+                                openToolbarAudioTool();
                             }}
                         />
                     </div>
@@ -290,7 +314,7 @@ export function UnifiedDownloader({
                         variant="ghost"
                         size="sm"
                         className="flex items-center gap-1"
-                        onClick={() => setAudioToolOpen(true)}
+                        onClick={openToolbarAudioTool}
                     >
                         <Music className="h-4 w-4" />
                         <span>{dict.audioTool.triggerButton}</span>
@@ -304,7 +328,15 @@ export function UnifiedDownloader({
 
             <AudioExtractDialog
                 open={audioToolOpen}
-                onOpenChange={setAudioToolOpen}
+                onOpenChange={(nextOpen) => {
+                    setAudioToolOpen(nextOpen);
+                    if (!nextOpen) {
+                        setAudioToolTask(null);
+                        setAudioToolEntry('toolbar');
+                    }
+                }}
+                entry={audioToolEntry}
+                autoExtractTask={audioToolTask}
             />
 
             <main className="flex-1 p-3 sm:p-4 md:p-4 pt-4">
@@ -383,6 +415,7 @@ export function UnifiedDownloader({
                             <UnifiedDownloaderLowerSections
                                 parseResult={parseResult}
                                 onCloseParseResult={closeParseResult}
+                                onOpenExtractAudio={openResultAudioExtract}
                                 mobileAd={mobileAd}
                                 mobileGuides={mobileGuides}
                                 downloadHistory={downloadHistory}
@@ -406,4 +439,4 @@ export function UnifiedDownloader({
             {footer}
         </div>
     );
-} 
+}

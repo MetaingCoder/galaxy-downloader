@@ -4,6 +4,7 @@ import { X, Download, ExternalLink, Loader2, Package } from 'lucide-react';
 import Image from "next/image";
 import { useDictionary } from '@/i18n/client';
 import { UnifiedParseResult, PageInfo } from "../../lib/types";
+import { normalizePlatform } from "@/lib/platforms";
 import { downloadFile, formatDuration, sanitizeFilename } from "../../lib/utils";
 import { useState, useEffect, useRef } from 'react';
 import { toast } from '@/lib/deferred-toast';
@@ -12,6 +13,7 @@ import { shouldHideSingleImagePreview, shouldShowVideoDownloadButton } from "./r
 interface ResultCardProps {
     result: UnifiedParseResult['data'] | null | undefined
     onClose: () => void;
+    onOpenExtractAudio: (task: { title?: string; sourceUrl?: string | null; audioUrl?: string | null; videoUrl?: string | null }) => void;
 }
 
 function resolveCoverSrc(coverUrl: string): string {
@@ -32,7 +34,7 @@ function replaceTemplate(template: string, token: string, value: string): string
     return template.replace(token, value);
 }
 
-export function ResultCard({ result, onClose }: ResultCardProps) {
+export function ResultCard({ result, onClose, onOpenExtractAudio }: ResultCardProps) {
     const dict = useDictionary()
     if (!result) return null;
 
@@ -84,7 +86,7 @@ export function ResultCard({ result, onClose }: ResultCardProps) {
                             currentPage={result.currentPage}
                         />
                     ) : (
-                        <SinglePartButtons result={result} />
+                        <SinglePartButtons result={result} onOpenExtractAudio={onOpenExtractAudio} />
                     )}
                 </div>
             </CardContent>
@@ -95,13 +97,23 @@ export function ResultCard({ result, onClose }: ResultCardProps) {
 /**
  * 单P视频的下载按钮
  */
-function SinglePartButtons({ result }: { result: NonNullable<UnifiedParseResult['data']> }) {
+function SinglePartButtons({
+    result,
+    onOpenExtractAudio,
+}: {
+    result: NonNullable<UnifiedParseResult['data']>;
+    onOpenExtractAudio: (task: { title?: string; sourceUrl?: string | null; audioUrl?: string | null; videoUrl?: string | null }) => void;
+}) {
     const dict = useDictionary()
     const [videoLoading, setVideoLoading] = useState(false);
     const [audioLoading, setAudioLoading] = useState(false);
     const videoDownloadUrl = result.downloadVideoUrl || result.originDownloadVideoUrl;
     const audioDownloadUrl = result.downloadAudioUrl || result.originDownloadAudioUrl || null;
     const showVideoDownload = shouldShowVideoDownloadButton(videoDownloadUrl);
+    const showExtractAudio =
+        !audioDownloadUrl
+        && typeof videoDownloadUrl === 'string'
+        && videoDownloadUrl.length > 0;
     const showOriginVideoLink =
         typeof result.originDownloadVideoUrl === 'string'
         && result.originDownloadVideoUrl.length > 0
@@ -140,6 +152,20 @@ function SinglePartButtons({ result }: { result: NonNullable<UnifiedParseResult[
                     >
                         {audioLoading && <Loader2 className="h-4 w-4 animate-spin" />}
                         {dict.result.downloadAudio}
+                    </Button>
+                )}
+                {showExtractAudio && (
+                    <Button
+                        variant="outline"
+                        className="flex items-center justify-center gap-2"
+                        onClick={() => onOpenExtractAudio({
+                            title: result.title || result.desc || undefined,
+                            sourceUrl: result.url || null,
+                            audioUrl: audioDownloadUrl,
+                            videoUrl: videoDownloadUrl || null,
+                        })}
+                    >
+                        {dict.extractAudio.button}
                     </Button>
                 )}
             </div>

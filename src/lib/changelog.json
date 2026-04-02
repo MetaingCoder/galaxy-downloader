@@ -1,6 +1,24 @@
 {
   "versions": [
     {
+      "version": "3.1.0",
+      "date": "2026-04-02",
+      "changes": {
+        "zh": [
+          "增加“音频处理”功能，支持提取音频和合并音视频"
+        ],
+        "en": [
+          "Added the \"Audio Tools\" feature, supporting audio extraction and video-audio merging"
+        ],
+        "ja": [
+          "「音声処理」機能を追加し、音声抽出と動画・音声結合に対応しました"
+        ],
+        "zh-tw": [
+          "新增「音訊處理」功能，支援提取音訊與音影片合併"
+        ]
+      }
+    },
+    {
       "version": "3.0.0",
       "date": "2026-03-27",
       "changes": {

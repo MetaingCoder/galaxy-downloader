@@ -8,6 +8,12 @@ import { DownloadHistory, type DownloadRecord } from './download-history';
 interface UnifiedDownloaderLowerSectionsProps {
     parseResult: UnifiedParseResult['data'] | null;
     onCloseParseResult: () => void;
+    onOpenExtractAudio: (task: {
+        title?: string;
+        sourceUrl?: string | null;
+        audioUrl?: string | null;
+        videoUrl?: string | null;
+    }) => void;
     mobileAd?: ReactNode;
     mobileGuides?: ReactNode;
     downloadHistory: DownloadRecord[];
@@ -20,6 +26,7 @@ interface UnifiedDownloaderLowerSectionsProps {
 export function UnifiedDownloaderLowerSections({
     parseResult,
     onCloseParseResult,
+    onOpenExtractAudio,
     mobileAd,
     mobileGuides,
     downloadHistory,
@@ -36,6 +43,7 @@ export function UnifiedDownloaderLowerSections({
                 <ResultCard
                     result={parseResult}
                     onClose={onCloseParseResult}
+                    onOpenExtractAudio={onOpenExtractAudio}
                 />
             )}
 
