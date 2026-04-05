@@ -1,4 +1,3 @@
-import 'server-only'
 import type { Locale } from './config'
 import type { Dictionary } from './types'
 import zh from './dictionaries/zh.json'
