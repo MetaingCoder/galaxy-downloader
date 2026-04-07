@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import { toast } from '@/lib/deferred-toast';
 import {
     getResultMediaActions,
+    resolveResultDisplayImages,
     shouldHideSingleImagePreview,
     shouldShowVideoDownloadButton,
     shouldUseFrontendImageProxy,
@@ -114,10 +115,15 @@ export function ResultCard({ result, onClose, onOpenExtractAudio }: ResultCardPr
     const dict = useDictionary()
     if (!result) return null;
 
+    const displayImages = resolveResultDisplayImages({
+        noteType: result.noteType,
+        images: result.images,
+        coverUrl: result.cover,
+    });
     const isMultiPart = result.isMultiPart && result.pages && result.pages.length > 1;
-    const isImageNote = result.noteType === 'image' && !!result.images?.length;
+    const isImageNote = result.noteType === 'image' && displayImages.length > 0;
     const hasEmbeddedVideos = !!result.videos?.length;
-    const hasSupplementalImages = !isImageNote && !!result.images?.length;
+    const hasSupplementalImages = !isImageNote && displayImages.length > 0;
     const coverUrl = typeof result.cover === 'string' ? result.cover.trim() : '';
     const shouldShowCover = !isImageNote && coverUrl.length > 0;
     const coverSrc = shouldShowCover ? resolveCoverSrc(coverUrl) : '';
@@ -153,7 +159,7 @@ export function ResultCard({ result, onClose, onOpenExtractAudio }: ResultCardPr
                     )}
                     {isImageNote ? (
                         <ImageNoteGrid
-                            images={result.images!}
+                            images={displayImages}
                             title={displayTitle}
                         />
                     ) : (
@@ -170,7 +176,7 @@ export function ResultCard({ result, onClose, onOpenExtractAudio }: ResultCardPr
                             )}
                             {hasSupplementalImages && (
                                 <ImageNoteGrid
-                                    images={result.images!}
+                                    images={displayImages}
                                     title={displayTitle}
                                 />
                             )}
