@@ -229,7 +229,7 @@
             "steps": [
                 {
                     "title": "Copy Media Link",
-                    "description": "Copy a video, post, image-post, short-link, or mixed-media link from Bilibili, Douyin, Telegram, Threads, WeChat, Weibo, Niconico, Instagram, Xiaohongshu, TikTok, or X"
+                    "description": "Copy media links from supported platforms"
                 },
                 {
                     "title": "Paste and Parse",

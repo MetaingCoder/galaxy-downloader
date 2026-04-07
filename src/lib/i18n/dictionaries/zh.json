@@ -229,7 +229,7 @@
             "steps": [
                 {
                     "title": "复制媒体链接",
-                    "description": "从哔哩哔哩、抖音、Telegram、Threads、微信公众号、微博、Niconico、Instagram、小红书、TikTok 或 X 复制视频、帖子、图文或短链链接"
+                    "description": "从支持的平台复制视频、帖子、图文或短链链接"
                 },
                 {
                     "title": "粘贴并解析",

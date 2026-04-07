@@ -229,7 +229,7 @@
             "steps": [
                 {
                     "title": "複製媒體連結",
-                    "description": "從嗶哩嗶哩、抖音、Telegram、Threads、微信公眾號、微博、Niconico、Instagram、小紅書、TikTok 或 X 複製影片、貼文、圖文或短鏈連結"
+                    "description": "從支援的平台複製影片、貼文、圖文或短鏈連結"
                 },
                 {
                     "title": "貼上並解析",

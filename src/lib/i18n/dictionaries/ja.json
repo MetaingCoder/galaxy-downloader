@@ -229,7 +229,7 @@
             "steps": [
                 {
                     "title": "メディアリンクをコピー",
-                    "description": "Bilibili、Douyin、Telegram、Threads、WeChat、Weibo、Niconico、Instagram、Xiaohongshu、TikTok、または X から動画・投稿・画像投稿・短縮リンク・混合メディアリンクをコピーします"
+                    "description": "対応プラットフォームからメディアリンクをコピーします"
                 },
                 {
                     "title": "貼り付けて解析",
