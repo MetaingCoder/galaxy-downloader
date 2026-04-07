@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { X, Download, ExternalLink, Loader2, Package } from 'lucide-react';
+import { X, Download, ExternalLink, Loader2, Package, Share2 } from 'lucide-react';
 import Image from "next/image";
 import { useDictionary } from '@/i18n/client';
 import type { AudioExtractTask } from '@/components/audio-tool/types';
@@ -127,6 +127,44 @@ export function ResultCard({ result, onClose, onOpenExtractAudio }: ResultCardPr
     const coverUrl = typeof result.cover === 'string' ? result.cover.trim() : '';
     const shouldShowCover = !isImageNote && coverUrl.length > 0;
     const coverSrc = shouldShowCover ? resolveCoverSrc(coverUrl) : '';
+    const shareSourceUrl = typeof result.url === 'string' ? result.url.trim() : '';
+    const hasPlayableCandidate = [
+        result.originDownloadVideoUrl,
+        result.downloadVideoUrl,
+        ...(result.pages ?? []).map((page) => page.downloadVideoUrl),
+        ...(result.videos ?? []).flatMap((video) => [video.originDownloadVideoUrl, video.downloadVideoUrl]),
+    ].some((url) => shouldShowVideoDownloadButton(url));
+    const canSharePlayLink = shareSourceUrl.length > 0 && (
+        result.mediaActions?.video === 'direct-download'
+        || result.mediaActions?.video === 'merge-then-download'
+        || hasPlayableCandidate
+    );
+
+    const handleCopySharePlayLink = async () => {
+        if (!canSharePlayLink) {
+            return;
+        }
+
+        try {
+            if (typeof window === 'undefined' || typeof navigator === 'undefined' || !navigator.clipboard?.writeText) {
+                throw new Error('Clipboard API unavailable');
+            }
+
+            const pathnameSegments = window.location.pathname.split('/').filter((segment) => segment.length > 0);
+            const localePrefix = pathnameSegments[0] ? `/${pathnameSegments[0]}` : '';
+            const shareUrl = new URL(`${window.location.origin}${localePrefix}/play`);
+            shareUrl.searchParams.set('url', shareSourceUrl);
+            shareUrl.searchParams.set('autoplay', '1');
+
+            await navigator.clipboard.writeText(shareUrl.toString());
+            toast.success(dict.result.sharePlayLinkCopied);
+        } catch (error) {
+            console.error('Failed to copy share-play link:', error);
+            toast.error(dict.errors.clipboardFailed, {
+                description: dict.errors.clipboardPermission,
+            });
+        }
+    };
 
     const displayTitle = result.title;
     return (
@@ -134,9 +172,23 @@ export function ResultCard({ result, onClose, onOpenExtractAudio }: ResultCardPr
             <CardHeader className="p-4">
                 <div className="flex items-center justify-between mb-2">
                     <CardTitle className="text-lg">{dict.result.title}</CardTitle>
-                    <Button variant="ghost" size="sm" onClick={onClose}>
-                        <X className="h-4 w-4" />
-                    </Button>
+                    <div className="flex items-center gap-2">
+                        {canSharePlayLink && (
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-8 gap-1.5"
+                                onClick={() => void handleCopySharePlayLink()}
+                                title={dict.result.sharePlayLink}
+                            >
+                                <Share2 className="h-4 w-4" />
+                                <span className="hidden sm:inline">{dict.result.sharePlayLink}</span>
+                            </Button>
+                        )}
+                        <Button variant="ghost" size="sm" onClick={onClose}>
+                            <X className="h-4 w-4" />
+                        </Button>
+                    </div>
                 </div>
                 <p
                     className="line-clamp-2 text-sm text-foreground/80 break-words"
