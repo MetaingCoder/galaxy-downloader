@@ -347,7 +347,7 @@ export function UnifiedDownloader({
                                                 onChange={(e) => setUrl(e.target.value)}
                                                 placeholder={dict.unified.placeholder}
                                                 required
-                                                className="min-h-[80px] resize-none break-all"
+                                                className="min-h-[120px] resize-none break-all"
                                             />
                                             <div className="flex gap-2">
                                                 <Button
