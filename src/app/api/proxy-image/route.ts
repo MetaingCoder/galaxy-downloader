@@ -1,24 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const ALLOWED_IMAGE_HOSTS = [
-    'douyinpic.com',
-    'hdslb.com',
-    'bilibili.com',
-    'biliimg.com',
-    'bstarstatic.com',
-    'mmbiz.qpic.cn',
-    'xhscdn.com',
-    'xiaohongshu.com',
-    'tiktokcdn.com',
-    'tiktokcdn-us.com',
-    'tiktok.com',
-    'instagram.com',
-    'cdninstagram.com',
-    'fbcdn.net',
-    'nimg.jp',
-    'twimg.com',
-    'x.com',
-    'twitter.com',
+    '*',
 ];
 
 const DEFAULT_ACCEPT =
@@ -30,6 +13,9 @@ const NESTED_IMAGE_PROXY_HOSTS = new Set([
 
 function isAllowedImageHost(hostname: string): boolean {
     const normalized = hostname.toLowerCase();
+    if (ALLOWED_IMAGE_HOSTS.includes('*')) {
+        return true;
+    }
     return ALLOWED_IMAGE_HOSTS.some(
         (host) => normalized === host || normalized.endsWith(`.${host}`)
     );
