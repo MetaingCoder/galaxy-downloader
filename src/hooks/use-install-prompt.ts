@@ -1,11 +1,27 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 const DISMISSED_KEY = 'pwa-install-dismissed'
 
 interface BeforeInstallPromptEvent extends Event {
     prompt(): Promise<{ outcome: 'accepted' | 'dismissed' }>
+}
+
+function readDismissedFlag(): boolean {
+    try {
+        return window.localStorage.getItem(DISMISSED_KEY) === '1'
+    } catch {
+        return false
+    }
+}
+
+function writeDismissedFlag(): void {
+    try {
+        window.localStorage.setItem(DISMISSED_KEY, '1')
+    } catch {
+        // Ignore storage access failures in restricted contexts.
+    }
 }
 
 export function useInstallPrompt() {
@@ -14,7 +30,7 @@ export function useInstallPrompt() {
 
     useEffect(() => {
         if (window.matchMedia('(display-mode: standalone)').matches) return
-        if (localStorage.getItem(DISMISSED_KEY)) return
+        if (readDismissedFlag()) return
 
         const handleBeforeInstall = (e: Event) => {
             e.preventDefault()
@@ -36,17 +52,17 @@ export function useInstallPrompt() {
         }
     }, [])
 
-    const promptInstall = async () => {
+    const promptInstall = useCallback(async () => {
         if (!deferredEvent.current) return
         await deferredEvent.current.prompt()
         deferredEvent.current = null
         setCanPrompt(false)
-    }
+    }, [])
 
-    const dismiss = () => {
-        localStorage.setItem(DISMISSED_KEY, '1')
+    const dismiss = useCallback(() => {
+        writeDismissedFlag()
         setCanPrompt(false)
-    }
+    }, [])
 
     return { canPrompt, promptInstall, dismiss }
 }

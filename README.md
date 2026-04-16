@@ -98,6 +98,8 @@ pnpm dev
 - `NEXT_PUBLIC_SITE_URL`: 当前环境站点地址（例如 `https://downloader.bhwa233.com`）
 - `SEO_INDEXABLE`: 是否允许索引，`true` / `false`
 
+如果本地开发未配置 `NEXT_PUBLIC_SITE_URL`，应用会默认使用 `http://localhost:3010` 作为站点基址，避免 manifest、canonical 和 Open Graph 链接错误地指向生产域名。
+
 如果生产或预发环境未配置 `API_BASE_URL`，应用的代理接口会返回 `503 SERVICE_UNAVAILABLE` JSON 错误，而不是未处理的 500。
 
 默认策略：

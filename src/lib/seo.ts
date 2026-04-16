@@ -1,6 +1,7 @@
 import { i18n, type Locale } from "@/lib/i18n/config"
 
 const PRODUCTION_SITE_URL = "https://downloader.bhwa233.com"
+const DEVELOPMENT_SITE_URL = "http://localhost:3010"
 
 function normalizeSiteUrl(url: string | undefined): string | null {
     if (!url) return null
@@ -19,8 +20,11 @@ function normalizePath(path = ""): string {
 
 const explicitIndexableFlag = process.env.SEO_INDEXABLE ?? process.env.NEXT_PUBLIC_SEO_INDEXABLE
 const isVercel = typeof process.env.VERCEL_ENV === "string"
+const defaultSiteUrl = process.env.NODE_ENV === "production"
+    ? PRODUCTION_SITE_URL
+    : DEVELOPMENT_SITE_URL
 
-export const SITE_URL = normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL) ?? PRODUCTION_SITE_URL
+export const SITE_URL = normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL) ?? defaultSiteUrl
 export const IS_INDEXABLE = explicitIndexableFlag
     ? explicitIndexableFlag === "true"
     : isVercel
